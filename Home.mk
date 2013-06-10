@@ -9,4 +9,4 @@ $(TARGET_DIR)/%: %
 
 .PHONY: install
 install: $(addprefix $(TARGET_DIR)/,$(TARGETS))
-	make -C .config -f Home.mk install
+	@make -C .config -f Home.mk install
