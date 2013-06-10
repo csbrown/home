@@ -2,7 +2,8 @@
 # Includes
 # ----------------------------------------------------------------------------
 
-for i in $HOME/.config/profile/*.sh; do
+for i in $HOME/.config/profile/*.sh \
+         $HOME/.config/bash/completion/*; do
     if [[ -r "$i" ]]; then
         source $i
     fi
