@@ -21,11 +21,11 @@ TARGETS := \
 
 TARGET_DIR := ~/.config/profile
 
+.PHONY: install
+install: $(TARGET_DIR) $(addprefix $(TARGET_DIR)/,$(TARGETS))
+
 $(TARGET_DIR):
 	install -d $(TARGET_DIR)
 
 $(TARGET_DIR)/%.sh: %.sh
 	install -t $(TARGET_DIR) $^
-
-.PHONY: install
-install: $(addprefix $(TARGET_DIR)/,$(TARGETS))

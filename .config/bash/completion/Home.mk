@@ -9,7 +9,7 @@ TARGETS := \
 TARGET_DIR := ~/.config/bash/completion
 
 .PHONY: install
-install: $(addprefix $(TARGET_DIR)/,$(TARGETS))
+install: $(TARGET_DIR) $(addprefix $(TARGET_DIR)/,$(TARGETS))
 
 $(TARGET_DIR):
 	install -d $(TARGET_DIR)
