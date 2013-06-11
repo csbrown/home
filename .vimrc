@@ -37,6 +37,8 @@ set formatoptions=tcqn1
 " Appearance
 " ----------------------------------------------------------------------------
 
+colorscheme kiwi_dark
+
 "
 " Highlights
 "
