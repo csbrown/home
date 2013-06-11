@@ -10,3 +10,6 @@
 [submodule ".vim/bundles/dispatch"]
 	path = .vim/bundles/dispatch
 	url = git://github.com/tpope/vim-dispatch.git
+[submodule ".vim/bundles/align"]
+	path = .vim/bundles/align
+	url = git://github.com/tsaleh/vim-align
