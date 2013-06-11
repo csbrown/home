@@ -1,6 +1,7 @@
 SUBDIRS := \
     awesome \
     bash \
+    git \
     kiwi-dmenu \
     profile \
     $(NULL)

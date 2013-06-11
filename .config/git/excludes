@@ -1,0 +1,26 @@
+# my crumbs
+/.local/
+/local/
+nohup.out
+*.ignore
+
+# vim crumbs
+*~
+*.swn
+*.swo
+*.swp
+
+# emacs crumbs
+\#*\#
+.\#*\#
+
+# python crumbs
+*.pyc
+*.pyo
+__pycache__
+
+# eclipse crumbs
+.cproject
+.project
+.pydevproject
+.settings

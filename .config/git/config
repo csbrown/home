@@ -1,0 +1,31 @@
+[alias]
+	br = branch
+	br-c = branch --contains
+	cm = commit
+	co = checkout
+	cp = cherry-pick
+	dc = diff --cached
+	rb = rebase
+	rb-c = rebase --continue
+	root = !pwd
+	st = status -s
+[user]
+	name = Chad Versace
+[core]
+	excludesfile = ~/.config/git/excludes
+[color]
+	ui = true
+[merge]
+	tool = gvimdiff
+[ui]
+	color = true
+[push]
+	default = simple
+[rebase]
+	stat = true
+[include]
+	path = ~/.config/git/intel-private/config
+[rerere]
+	enabled = 1
+[grep]
+	lineNumber = 1
