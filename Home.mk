@@ -15,6 +15,7 @@ TARGETS := \
 
 SUBDIRS := \
     .config \
+    .local \
     .vim \
     bin \
     $(NULL)
