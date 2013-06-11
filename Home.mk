@@ -8,6 +8,7 @@ TARGETS := \
     .hgrc \
     .hgignore \
     .inputrc \
+    .mailcap \
     .vimrc \
     $(NULL)
 
