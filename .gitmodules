@@ -1,17 +1,17 @@
-[submodule ".vim/bundles/pathogen"]
-	path = .vim/bundles/pathogen
+[submodule ".vim/bundle/pathogen"]
+	path = .vim/bundle/pathogen
 	url = git://github.com/tpope/vim-pathogen.git
-[submodule ".vim/bundles/git"]
-	path = .vim/bundles/git
+[submodule ".vim/bundle/git"]
+	path = .vim/bundle/git
 	url = git://github.com/tpope/vim-git.git
-[submodule ".vim/bundles/fugitive"]
-	path = .vim/bundles/fugitive
+[submodule ".vim/bundle/fugitive"]
+	path = .vim/bundle/fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule ".vim/bundles/dispatch"]
-	path = .vim/bundles/dispatch
+[submodule ".vim/bundle/dispatch"]
+	path = .vim/bundle/dispatch
 	url = git://github.com/tpope/vim-dispatch.git
-[submodule ".vim/bundles/align"]
-	path = .vim/bundles/align
+[submodule ".vim/bundle/align"]
+	path = .vim/bundle/align
 	url = git://github.com/tsaleh/vim-align
 [submodule ".vim/bundle/glsl"]
 	path = .vim/bundle/glsl
