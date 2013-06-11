@@ -4,6 +4,7 @@ SUBDIRS := \
     git \
     gnome-session/sessions \
     kiwi-dmenu \
+    openbox \
     profile \
     $(NULL)
 
