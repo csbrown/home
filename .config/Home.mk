@@ -6,6 +6,7 @@ SUBDIRS := \
     kiwi-dmenu \
     openbox \
     profile \
+    tint2 \
     $(NULL)
 
 .PHONY: install
