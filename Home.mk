@@ -3,6 +3,7 @@ TARGET_DIR := ~
 TARGETS := \
     .bash_profile \
     .bashrc \
+    .ctags \
     .gvimrc \
     .vimrc \
     $(NULL)
