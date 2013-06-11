@@ -1,0 +1,4 @@
+[GNOME Session]
+Name=GNOME Null Session
+RequiredComponents=/bin/true
+DesktopName=GNOME

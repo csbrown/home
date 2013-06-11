@@ -2,6 +2,7 @@ SUBDIRS := \
     awesome \
     bash \
     git \
+    gnome-session/sessions \
     kiwi-dmenu \
     profile \
     $(NULL)
