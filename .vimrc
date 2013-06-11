@@ -89,6 +89,9 @@ autocmd BufRead,BufNewFile *.l,*.lpp set filetype=lex
 autocmd BufRead,BufNewFile *.scala set filetype=scala
 autocmd BufRead,BufNewFile *.y,*.ypp set filetype=yacc
 
+" Use standard formatting for PKGBUILD.
+autocmd BufNewFile,BufRead PKGBUILD* set et ts=2 sw=2
+
 " ----------------------------------------------------------------------------
 " Misc
 " ----------------------------------------------------------------------------
@@ -114,3 +117,4 @@ set visualbell
 set wildmenu
 
 " vim: et sw=4:
+" The standard codestyle for PKGBUILD.
