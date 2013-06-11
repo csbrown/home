@@ -9,6 +9,7 @@ TARGETS := \
     .hgignore \
     .inputrc \
     .mailcap \
+    .rpmmacros \
     .vimrc \
     $(NULL)
 
