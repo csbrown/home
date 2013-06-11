@@ -2,7 +2,9 @@ TARGET_DIR := ~
 
 TARGETS := \
     .bash_profile \
-    .bashrc
+    .bashrc \
+    .vimrc \
+    $(NULL)
 
 .PHONY: install
 install: $(TARGET_DIR) $(addprefix $(TARGET_DIR)/,$(TARGETS))
