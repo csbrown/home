@@ -85,7 +85,6 @@ map <S-CR> O<ESC>
 " Automatically detect filetype, and load its plugin and indent file.
 filetype plugin indent on
 
-autocmd BufRead,BufNewFile *.glsl,*.frag,*.vert,*.geom set filetype=glsl
 autocmd BufRead,BufNewFile *.l,*.lpp set filetype=lex
 autocmd BufRead,BufNewFile *.scala set filetype=scala
 autocmd BufRead,BufNewFile *.y,*.ypp set filetype=yacc
