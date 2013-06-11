@@ -5,6 +5,8 @@ TARGETS := \
     .bashrc \
     .ctags \
     .gvimrc \
+    .hgrc \
+    .hgignore \
     .vimrc \
     $(NULL)
 

@@ -1,0 +1,28 @@
+[diff]
+git = True
+
+[extensions]
+hgext.bookmarks =
+hgext.color = 
+hgext.convert =
+hgext.extdiff =
+hgext.fetch =
+hgext.bookmarks =
+hgext.graphlog =
+hgext.highlight =
+hgext.mq =
+hgext.progress =
+hgext.purge = 
+hgext.rebase =
+
+[progress]
+delay = 2
+
+[ui]
+editor = vim
+username = Chad Versace <chad@chad-versace.us>
+ignore.home = ~/.hgignore
+
+[web]
+allow_archive = bz2 zip
+contact = Chad Versace <chad@chad-versace.us>

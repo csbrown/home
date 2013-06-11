@@ -1,0 +1,37 @@
+pattern: regexp
+
+# my crumbs
+^build$
+^target$
+\.ignore$
+
+# Eclipse crumbs
+^\.cproject$
+^\.classpath$
+^\.project$
+^\.scala_dependencies$
+^\.settings$
+^\.pydevproject$
+
+# Apple crumbs
+\.DS_Store$
+\.disable$
+\.disabled$
+
+# vim crumbs
+\.swo$
+\.swp$
+~$
+
+# hg crumbs
+\.orig$
+\.rej$
+
+# IntelliJ crumbs
+^\.idea$
+\.iml$
+^out$
+
+
+# python crumbs
+\.pyc$
