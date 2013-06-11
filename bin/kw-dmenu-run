@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source $HOME/.config/kiwi-dmenu/environment.bash
+(dmenu < $HOME/.config/dmenu/list) | ${SHELL:-"/bin/sh"} &

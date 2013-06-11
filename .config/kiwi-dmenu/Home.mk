@@ -3,7 +3,7 @@ TARGETS := \
     list \
     $(NULL)
 
-TARGET_DIR := ~/.config/dmenu
+TARGET_DIR := ~/.config/kiwi-dmenu
 
 .PHONY: install
 install: $(TARGET_DIR) $(addprefix $(TARGET_DIR)/,$(TARGETS))
