@@ -7,6 +7,7 @@ TARGETS := \
     .gvimrc \
     .hgrc \
     .hgignore \
+    .inputrc \
     .vimrc \
     $(NULL)
 
