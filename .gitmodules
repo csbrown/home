@@ -4,3 +4,6 @@
 [submodule ".vim/bundles/git"]
 	path = .vim/bundles/git
 	url = git://github.com/tpope/vim-git.git
+[submodule ".vim/bundles/fugitive"]
+	path = .vim/bundles/fugitive
+	url = git://github.com/tpope/vim-fugitive.git
