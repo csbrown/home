@@ -1,6 +1,12 @@
+SUBDIRS := \
+    awesome \
+    bash \
+    kiwi-dmenu \
+    profile \
+    $(NULL)
+
 .PHONY: install
 install:
-	@make -C awesome -f Home.mk install
-	@make -C bash -f Home.mk install
-	@make -C kiwi-dmenu -f Home.mk install
-	@make -C profile -f Home.mk install
+	@for i in $(SUBDIRS); do \
+	    make -C $i -f Home.mk install;
+	done
