@@ -13,3 +13,6 @@
 [submodule ".vim/bundles/align"]
 	path = .vim/bundles/align
 	url = git://github.com/tsaleh/vim-align
+[submodule ".vim/bundle/glsl"]
+	path = .vim/bundle/glsl
+	url = git://github.com/tikhomirov/vim-glsl.git
