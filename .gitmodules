@@ -16,9 +16,9 @@
 [submodule ".vim/bundle/glsl"]
 	path = .vim/bundle/glsl
 	url = git://github.com/tikhomirov/vim-glsl.git
-[submodule "opt/taro"]
-	path = opt/taro
-	url = git://github.com/chadversary/taro.git
 [submodule "opt/git-repo"]
 	path = opt/git-repo
 	url = git://github.com/chadversary/git-repo.git
+[submodule "opt/taro"]
+	path = opt/taro
+	url = git://github.com/chadversary/taro.git
