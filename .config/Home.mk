@@ -12,5 +12,5 @@ SUBDIRS := \
 .PHONY: install
 install:
 	@for i in $(SUBDIRS); do \
-	    make -C $$i -f Home.mk install;
+	    make -C $$i -f Home.mk install; \
 	done
