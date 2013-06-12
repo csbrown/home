@@ -18,6 +18,7 @@ SUBDIRS := \
     .local \
     .vim \
     bin \
+    opt \
     $(NULL)
 
 .PHONY: install
