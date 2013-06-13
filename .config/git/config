@@ -24,7 +24,7 @@
 [rebase]
 	stat = true
 [include]
-	path = ~/.config/git/intel-private/config
+	path = ~/.config/git/local/config
 [rerere]
 	enabled = 1
 [grep]

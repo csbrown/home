@@ -5,6 +5,8 @@ install:
 	rm -f ~/.gitconfig
 	@rsync -va --delete \
 	    -f '- Home.mk' \
+	    -f '- .gitignore' \
+	    -f '- local' \
 	    ./ $(TARGET_DIR)/
 
 $(TARGET_DIR):
