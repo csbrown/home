@@ -1,0 +1,61 @@
+#!/usr/bin/python3
+
+# Copyright 2011 Chad Versace <chad@chad-versace.us>
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#  http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import os
+import sys
+import textwrap
+
+man = textwrap.dedent("""\
+    name: whitespace-trim
+
+    description:
+        Delete trailing whitespace.
+
+    usage:
+        whitespace-trim
+            Input and output are stdin and stdout.
+
+        whitespace-trim -i FILE [FILE ...]
+            Modify files in place.
+
+        whitespace-trim [-h|--help]
+            Print this help message. 
+    """)
+
+base_command = [
+    'sed',
+    '-e', 's/[[:space:]]*$//',
+    ]
+
+def usage_error():
+    print("usage error: whitespace-trim")
+    print("see `whitespace-trim -h` for help")
+    sys.exit(1)
+
+def build_command(args):
+    if len(args) == 1:
+        return base_command
+
+    arg1 = args[1]
+    if arg1 == '-h' or arg1 == '--help':
+        sys.stdout.write(man)
+        sys.exit(0)
+    elif arg1 == '-i':
+        return base_command + ['-i'] + args[2:]
+    else:
+        usage_error()
+
+os.execvp('sed', build_command(sys.argv))

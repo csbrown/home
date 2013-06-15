@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# Copyright 2012 Chad Versace <chad@chad-versace.us>
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#  http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+in_place=0
+
+function prog_name() {
+    echo $(basename "$0")
+}
+
+function show_help() {
+    echo "name:"
+    echo "    $(prog_name) - Ensure that a newline exists at the end of file."
+    echo
+    echo "usage:"
+    echo "    $(prog_name) -h"
+    echo "        Show this help message."
+    echo
+    echo "    $(prog_name)"
+    echo "        Read from stdin, write to stdout."
+    echo
+    echo "    $(prog_name) [-i] FILE [FILE ...]"
+    echo "        If -i, then alter files in place. Otherwise, write to stdout."
+
+    exit 0
+}
+
+function fatal_error() {
+    echo "$(prog_name): error: $1"
+    exit 1
+}
+
+function do_file() {
+    local fin="$1"
+
+    local fout=
+    case "$in_place" in
+        0) fout=/dev/stdout ;;
+        1) fout="$fin" ;;
+        *) fatal_error "internal error at $BASH_SOURCE:$LINENO" ;;
+    esac
+
+    if [[ $in_place = 0 ]]; then
+        cat "$fin" > "$fout"
+    fi
+
+    diff <(tail -c1 "$fin") <(echo) >& /dev/null
+    case $? in
+        0)
+            # do nothing
+            ;;
+        1)
+            echo >> "$fout"
+            ;;
+        2)
+            fatal_error "diff failed"
+            ;;
+        *)
+            fatal_error "internal error at $BASH_SOURCE:$LINENO"
+            ;;
+    esac
+}
+
+if [[ $# = 0 ]]; then
+    in_place=0
+    do_file /dev/stdin
+elif [[ $# = 1 ]]; then
+    if [[ "$1" = "-h" ]]; then
+        show_help
+        exit
+    elif [[ "$1" = "-i" ]]; then
+        usage_error
+    else
+        do_file "$1"
+    fi
+else
+    if [[ "$1" = "-h" ]]; then
+        show_help
+        exit
+    elif [[ "$1" = "-i" ]]; then
+        in_place=1
+        shift
+    fi
+
+    until [[ $# = 0 ]]; do
+        do_file "$1"
+        shift
+    done
+fi
