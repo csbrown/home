@@ -1,7 +1,7 @@
 TARGET_DIR := ~/bin
 
 .PHONY: install
-install:
+install: $(TARGET_DIR)
 	@rsync -va --delete \
 	    -f '- Home.mk' \
 	    ./ $(TARGET_DIR)/
