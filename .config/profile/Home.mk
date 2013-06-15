@@ -1,10 +1,6 @@
-TARGET_DIR := ~/.config/profile
+LOCAL_PATH := $(call my-dir)
+include $(HOME_CLEAR_VARS)
 
-.PHONY: install
-install: $(TARGET_DIR)
-	@rsync -va --delete \
-	    -f '- Home.mk' \
-	    ./ $(TARGET_DIR)/
-
-$(TARGET_DIR):
-	install -d $(TARGET_DIR)
+LOCAL_INSTALL_DIR := ~/.config/profile
+LOCAL_INSTALL_METHOD := rsync
+include $(HOME_INSTALL_MODULE)

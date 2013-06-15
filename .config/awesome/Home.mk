@@ -1,11 +1,6 @@
-TARGETS := rc.lua
-TARGET_DIR := ~/.config/awesome
+LOCAL_PATH := $(call my-dir)
+include $(HOME_CLEAR_VARS)
 
-.PHONY: install
-install: $(TARGET_DIR) $(addprefix $(TARGET_DIR)/,$(TARGETS))
-
-$(TARGET_DIR):
-	install -d $(TARGET_DIR)
-
-$(TARGET_DIR)/%: %
-	install -t $(TARGET_DIR) $^
+LOCAL_INSTALL_DIR := ~/.config/awesome
+LOCAL_INSTALL_METHOD := rsync
+include $(HOME_INSTALL_MODULE)

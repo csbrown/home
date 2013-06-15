@@ -1,17 +1,4 @@
-TARGET_DIR := ~/opt
+LOCAL_PATH := $(call my-dir)
+include $(HOME_CLEAR_VARS)
 
-SYNC_SUBDIRS := \
-    git-repo \
-    taro
-
-.PHONY: install
-install: $(TARGET_DIR)
-	@for i in $(SYNC_SUBDIRS); do \
-	    rsync -va --delete \
-		-f '- .git' \
-		-f '- .gitignore' \
-		$$i/ $(TARGET_DIR)/$$i/; \
-	done
-
-$(TARGET_DIR)/%: %
-	install -t $(TARGET_DIR) $^
+include $(LOCAL_PATH)/Home.*.mk

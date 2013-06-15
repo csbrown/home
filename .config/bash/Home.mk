@@ -1,3 +1,6 @@
-.PHONY: install
-install:
-	@make -C completion -f Home.mk install
+LOCAL_PATH := $(call my-dir)
+include $(HOME_CLEAR_VARS)
+
+LOCAL_INSTALL_DIR := ~/.config/bash
+LOCAL_INSTALL_METHOD := rsync
+include $(HOME_INSTALL_MODULE)

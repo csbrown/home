@@ -1,6 +1,10 @@
-TARGET_DIR := ~
+LOCAL_PATH := $(call my-dir)
+include $(HOME_CLEAR_VARS)
 
-TARGETS := \
+LOCAL_MODULE := dotfiles
+LOCAL_INSTALL_DIR := ~
+LOCAL_INSTALL_METHOD := files
+LOCAL_FILES := \
     .bash_profile \
     .bashrc \
     .ctags \
@@ -10,27 +14,7 @@ TARGETS := \
     .inputrc \
     .mailcap \
     .rpmmacros \
-    .vimrc \
-    $(NULL)
+    .vimrc
+include $(HOME_INSTALL_MODULE)
 
-SUBDIRS := \
-    .config \
-    .local \
-    .vim \
-    bin \
-    opt \
-    $(NULL)
-
-.PHONY: install
-install: $(TARGET_DIR) $(addprefix $(TARGET_DIR)/,$(TARGETS))
-	@for i in $(SUBDIRS); do \
-	    make -C $$i -f Home.mk install; \
-	done
-	@for i in opt/*; do \
-	    if [ -r $i/Home.mk ]; then \
-		make -C $$i -f Home.mk install; \
-	    fi; \
-	done
-
-$(TARGET_DIR)/%: %
-	install -t $(TARGET_DIR) $^
+include $(call first-makefiles-under,$(LOCAL_PATH))

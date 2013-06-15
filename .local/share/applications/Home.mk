@@ -1,14 +1,7 @@
-TARGETS := \
-    gtk-redshift.desktop \
-    $(NULL)
+LOCAL_PATH := $(call my-dir)
+include $(HOME_CLEAR_VARS)
 
-TARGET_DIR := ~/.local/share/applications
-
-.PHONY: install
-install: $(TARGET_DIR) $(addprefix $(TARGET_DIR)/,$(TARGETS))
-
-$(TARGET_DIR):
-	install -d $(TARGET_DIR)
-
-$(TARGET_DIR)/%: %
-	install -t $(TARGET_DIR) $^
+LOCAL_INSTALL_DIR := ~/.local/share/applications
+LOCAL_INSTALL_METHOD := files
+LOCAL_FILES := gtk-redshift.desktop
+include $(HOME_INSTALL_MODULE)

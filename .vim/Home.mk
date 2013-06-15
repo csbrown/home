@@ -1,15 +1,6 @@
-TARGET_DIR := ~/.vim
+LOCAL_PATH := $(call my-dir)
+include $(HOME_CLEAR_VARS)
 
-.PHONY: install
-install:
-	@rsync -va --delete \
-	    -f '- .git' \
-	    -f '- .gitignore' \
-	    -f '- Home.mk' \
-	    -f '- tags' \
-	    ./ $(TARGET_DIR)/
-	@echo "vim: Generate helptags"
-	@vim -c "call pathogen#helptags()" -c quit
-
-$(TARGET_DIR):
-	install -d $(TARGET_DIR)
+LOCAL_INSTALL_DIR := ~/.vim
+LOCAL_INSTALL_METHOD := rsync
+include $(HOME_INSTALL_MODULE)
