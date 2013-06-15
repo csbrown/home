@@ -1,0 +1,130 @@
+#!/usr/bin/env python3
+
+from subprocess import Popen, PIPE
+import os
+import sys
+import textwrap
+
+help_text = textwrap.dedent("""\
+    name:
+        find-src
+
+    description:
+        Find source files. This is just a wrapper around the Unix find utility
+        with pre-cooked regular expressions.
+
+    usage:
+        find-src [opts] [DIR [DIR ...]]
+            Find source files in the given directories. If no directory is
+            given, then the current directory is searched.
+        find-src [opts] --print-command
+            Print the 
+
+    options:
+        -h --help
+            Print this help message.
+        -l --links
+            Return symbolic links in addition to regular files.
+    """)
+
+#-----------------------------------------------------------------------------
+# Configuration
+#-----------------------------------------------------------------------------
+
+include_names = [
+        'CMakeLists.*',
+        '*.c',
+        '*.cc',
+        '*.cmake',
+        '*.cpp',
+        '*.el',
+        '*.frag',
+        '*.geo',
+        '*.glsl',
+        '*.h',
+        '*.hh',
+        '*.hs',
+        '*.hpp',
+        '*.java',
+        '*.l',
+        '*.lhs',
+        '*.lpp',
+        '*.py',
+        '*.rb',
+        '*.s',
+        '*.scala',
+        '*.shader_test',
+        '*.vert',
+        '*.y',
+        '*.ypp',
+        ]
+
+exclude_names = [
+        '*.disabled',
+        '*.ignore',
+        ]
+
+exclude_regex = [
+        '.*\.disabled\/.*',
+        '.*\.ignore\/.*',
+        ]
+
+#-----------------------------------------------------------------------------
+
+def get_file_list(dir_list, return_links=False):
+    # Build search pattern
+    cmd = ['find'] + dir_list + ['(']
+    for p in include_names:
+        cmd += ['-name', p, '-or']
+    # Pop the last '-or'
+    cmd.pop()
+    cmd += [')', '!', '(']
+    if not return_links:
+        cmd += ['-type', 'l', '-or']
+    for p in exclude_names:
+        cmd += ['-name', p, '-or']
+    # Pop the last '-or'
+    cmd.pop()
+    cmd += [')', '!', '(']
+    for p in exclude_regex:
+        cmd += ['-regex', p, '-or']
+    # Pop the last '-or'
+    cmd.pop()
+    cmd += [')']
+    # Give search pattern to 'find'
+    proc = Popen(
+            cmd,
+            stdout=PIPE,
+            stderr=sys.stderr)
+    proc_stdout = proc.communicate()[0]
+    if not proc.returncode == 0:
+        exit(1)
+    return proc_stdout.decode().rstrip().splitlines()
+
+def usage_error():
+    print("{0}: usage error".format(sys.argv[0]))
+    print()
+    print(help_text)
+    exit(1)
+
+def main():
+    argv = sys.argv
+
+    if len(argv) == 1:
+        usage_error()
+
+    if argv[1] == '-l' or argv[1] == '--links':
+        return_links = True
+        dir_list = argv[2:]
+    else:
+        return_links = False
+        dir_list = argv[1:]
+
+    if len(dir_list) == 0:
+        usage_error()
+
+    file_list = get_file_list(dir_list, return_links)
+    for file in file_list:
+        print(file)
+
+main()

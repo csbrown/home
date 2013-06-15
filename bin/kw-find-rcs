@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+
+# usage:
+#    find-rcs [dir [dir [...]]]
+
+import os
+import sys
+
+extensions = [
+    ".git",
+    ".hg",
+    ".repo",
+    ".svn",
+    ]
+
+DEBUG = False
+
+def logd(s):
+    if DEBUG:
+        print("debug: {}".format(s))
+
+def check_file(filepath, strip_func):
+        logd("checking " + filepath)
+
+        for ext in extensions:
+            if filepath.endswith(ext):
+                print(strip_func(filepath))
+                sys.stdout.flush()
+                return
+
+        if not os.path.isdir(filepath):
+            return
+
+        children_basenames = os.listdir(filepath)
+
+        for child_basename in children_basenames:
+            for ext in extensions:
+                if child_basename.endswith(ext):
+                    child_fullname = os.path.join(filepath, child_basename)
+                    print(strip_func(child_fullname))
+                    sys.stdout.flush()
+                    return
+
+        for child_basename in children_basenames:
+            child_fullname = os.path.join(filepath, child_basename)
+            if not os.path.isdir(child_fullname):
+                return
+            check_file(child_fullname, strip_func)
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        check_file(".", lambda x: x[2:])
+    else:
+        for a in sys.argv[1:]:
+            check_file(a, lambda x: x)
