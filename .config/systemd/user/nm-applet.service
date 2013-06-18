@@ -1,0 +1,11 @@
+[Unit]
+Description=NetworkManager panel applet for GNOME desktop environment
+Requires=dbus.socket
+After=panel.target
+
+[Service]
+ExecStart=/bin/nm-applet
+Restart=on-failure
+
+[Install]
+WantedBy=panel.target
