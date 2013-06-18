@@ -1,0 +1,12 @@
+
+[Unit]
+Description=The GNOME session manager
+After=xorg.target
+Requires=dbus.socket
+
+[Service]
+ExecStart=/bin/gnome-session
+Restart=on-failure
+
+[Install]
+WantedBy=gnome.target
