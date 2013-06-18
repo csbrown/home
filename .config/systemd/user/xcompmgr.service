@@ -1,0 +1,12 @@
+[Unit]
+Description=sample X compositing manager
+Documentation=man:xcompmgr(1)
+Requires=dbus.socket
+After=xorg.target
+
+[Service]
+ExecStart=/bin/xcompmgr
+Restart=on-failure
+
+[Install]
+WantedBy=xorg.target
