@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Pacifier
+Exec=/bin/true
+NoDisplay=true

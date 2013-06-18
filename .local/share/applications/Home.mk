@@ -3,5 +3,9 @@ include $(HOME_CLEAR_VARS)
 
 LOCAL_INSTALL_DIR := ~/.local/share/applications
 LOCAL_INSTALL_METHOD := files
-LOCAL_FILES := gtk-redshift.desktop
+LOCAL_FILES := \
+    gtk-redshift.desktop \
+    pacifier-component.desktop \
+    pacifier-provider.desktop
+
 include $(HOME_INSTALL_MODULE)
