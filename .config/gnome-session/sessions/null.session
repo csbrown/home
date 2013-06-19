@@ -1,6 +1,6 @@
 [GNOME Session]
 Name=GNOME Null Session
-RequiredComponents=pacifier-component
-RequiredProvidiers=pacifier-provider
-DefaultProvider-pacifier=pacifier-provider
+RequiredComponents=null-component
+RequiredProvidiers=null-provider
+DefaultProvider-null=null-provider
 DesktopName=GNOME
