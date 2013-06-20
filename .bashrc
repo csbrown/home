@@ -108,14 +108,14 @@ export PROMPT_DIRTRIM=3
 # Set colors for a terminal with light background.
 #
 function kw_bg_light() {
-    export PROMPT_COMMAND='PS1="${color_bg_hi_green}\u@\h:\w$(__git_ps1 " (%s)")${color_reset}\n> "'
+    export PROMPT_COMMAND='PS1="\e[${kw_color_bg_hi_green}m\u@\h:\w$(__git_ps1 " (%s)")\e[${kw_color_reset}m\n> "'
 }
 
 #
 # Set colors for a terminal with dark background.
 #
 function kw_bg_dark() {
-    export PROMPT_COMMAND='PS1="${color_bg_blue}[\!] \u@\h:\w$(__git_ps1 " (%s)")${color_reset}\n> "'
+    export PROMPT_COMMAND='PS1="\e[${kw_color_bg_blue}m[\!] \u@\h:\w$(__git_ps1 " (%s)")\e[${kw_color_reset}m\n> "'
 }
 
 # Assume a dark background.
