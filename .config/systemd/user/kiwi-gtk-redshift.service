@@ -1,0 +1,12 @@
+[Unit]
+Description=Set color temperature of display according to time of day
+Documentation=man:redshift(1)
+Requires=dbus.socket
+After=panel.target
+
+[Service]
+ExecStart=/bin/sh -c '/bin/gtk-redshift -c $${XDG_CONFIG_HOME:-$HOME/.config}/redshift/default.conf'
+Restart=on-failure
+
+[Install]
+WantedBy=panel.target
