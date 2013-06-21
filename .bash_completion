@@ -1,0 +1,7 @@
+for i in $HOME/.config/bash/completion/*; do
+    if [[ -r "$i" ]]; then
+        source $i
+    fi
+done
+
+# vim:filetype=sh:

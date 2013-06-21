@@ -5,6 +5,7 @@ LOCAL_MODULE := dotfiles
 LOCAL_INSTALL_DIR := ~
 LOCAL_INSTALL_METHOD := files
 LOCAL_FILES := \
+    .bash_completion \
     .bash_profile \
     .bashrc \
     .ctags \

@@ -2,8 +2,7 @@
 # Includes
 # ----------------------------------------------------------------------------
 
-for i in $HOME/.config/kiwi-profile/*.sh \
-         $HOME/.config/bash/completion/*; do
+for i in $HOME/.config/kiwi-profile/*.sh; do
     if [[ -r "$i" ]]; then
         source $i
     fi
