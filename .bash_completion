@@ -1,4 +1,4 @@
-for i in $HOME/.config/bash/completion/*; do
+for i in $HOME/.config/kiwi-bash-completion/*; do
     if [[ -r "$i" ]]; then
         source $i
     fi
