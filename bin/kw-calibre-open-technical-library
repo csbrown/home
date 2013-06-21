@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec calibre --with-library="$HOME/Dropbox/Library/Calibre/Technical Library"
