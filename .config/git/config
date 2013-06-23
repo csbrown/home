@@ -1,4 +1,5 @@
 [alias]
+	b = branch -v
 	br = branch
 	br-c = branch --contains
 	cm = commit
