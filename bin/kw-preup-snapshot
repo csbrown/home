@@ -1,0 +1,193 @@
+#!/bin/bash
+
+set -e
+
+#
+# Take btrfs snapshots (or remove snapshots) of these volumes.
+#
+kw_volumes=(/ /boot)
+
+#
+# Print help message for kw-preup-snapshot.
+#
+function kw_help_preup_snapshot() {
+    sed 's/^        //' <<EOF
+        usage: kw-preup-snapshot
+
+        Take btrfs snapshots in preparation for a system upgrade.
+
+        For each of the directories listed below, if the directory is a btrfs
+        mountpoint then create a snapshot at \$dir/snapshots/preup-\$timestamp
+        and the symbolic link
+        \$dir/snapshots/preup-latest -> \$dir/snapshots/preup-\$timestamp
+
+        Directories to snapshot:
+EOF
+    for i in ${kw_volumes[@]}; do
+        echo "    $i"
+    done
+}
+
+#
+# Print help message for kw-postup-snapshot.
+#
+function kw_help_preup_rm_snapshots() {
+    echo "usage: kw-preup-rm-snapshots"
+    echo
+    echo "Remove all btrfs snapshots and symbolic links created by"
+    echo "kw-preup-snapshot."
+}
+
+#
+# Print help message, with progname auto-detected.
+#
+function kw_help() {
+    local progname=$(basename $0)
+
+    case "$progname" in
+        kw-preup-snapshot)
+            kw_help_preup_snapshot >&2
+            ;;
+        kw-preup-rm-snapshots)
+            kw_help_preup_rm_snapshots >&2
+            ;;
+    esac
+}
+
+#
+# Print usage error message along with any appropriate help message. Exit with
+# failure.
+#
+function kw_usage_error() {
+    local progname=$(basename $0)
+
+    echo >&2 "$progname: usage error"
+    echo >&2
+
+    case "$progname" in
+        kw-preup-snapshot)
+            kw_help_preup_snapshot >&2
+            ;;
+        kw-preup-rm-snapshots)
+            kw_help_preup_rm_snapshots >&2
+            ;;
+    esac
+
+    exit 2
+}
+
+#
+# Transform stdin so that each line ends with '/'.
+#
+function kw_ensure_trailing_slash() {
+    while read dir; do
+        if [[ $(tail -c 1 <(echo -n $dir)) = '/' ]]; then
+            echo $dir
+        else
+            echo ${dir}/
+        fi
+    done
+}
+
+#
+# Regex that matches output of kw_timestamp().
+#
+kw_timestamp_regex='[[:digit:]]\{4\}-\([[:digit:]]\{2\}-\)\{4\}[[:digit:]]\{9\}'
+
+
+function kw_timestamp() {
+    date --utc '+%Y-%m-%d-%H-%M-%N'
+}
+
+#
+# Each line of stdin is a btrfs mountpoint. Make a snapshot of each mountpoint
+# at "${mountpoint}snapshots/preup-$timestamp" and create to it a link
+# "${mountpoint}/snapshots/preup-latest".
+#
+function kw_snapshot() {
+    kw_ensure_trailing_slash \
+    | while read mount_point; do
+        local timestamp=$(kw_timestamp)
+        sudo mkdir -p ${mount_point}snapshots
+        sudo btrfs subvolume snapshot \
+            ${mount_point} \
+            ${mount_point}snapshots/preup-$timestamp
+
+        pushd ${mount_point}snapshots >&/dev/null
+            echo -n "Link ${mount_point}snapshots/preup-latest -> "
+            echo -n "${mount_point}snapshots/preup-$timestamp"
+            echo
+            sudo ln -sf preup-$timestamp preup-latest
+        popd >&/dev/null
+    done
+}
+
+#
+# Each line of stdin is a btrfs mountpoint. Remove all subvolumes whose name
+# matches "${mountpoint}snapshots/preup-*" and, if present, the symbolic link
+# "${mountpoint}snapshots/preup-latest".
+#
+function kw_rm_snapshot() {
+    kw_ensure_trailing_slash \
+    | while read mount_point; do
+        if ! [[ -d ${mount_point}snapshots ]]; then
+            continue
+        fi
+
+        sudo rm -f ${mount_point}snapshots/preup-latest
+        ls ${mount_point}snapshots \
+        | grep "^preup-${kw_timestamp_regex}$" \
+        | while read subvol; do
+            sudo btrfs subvolume delete ${mount_point}snapshots/${subvol}
+        done
+    done
+}
+
+#
+# Print the subset of kw_volumes, one volume per line, that are btrfs
+# mountpoints.
+#
+function kw_filter_volumes() {
+    mount | while read mount_entry; do
+        local mount_type=$(echo $mount_entry | cut -d' ' -f5)
+        if [[ $mount_type != btrfs ]]; then
+            continue
+        fi
+
+        local mount_point=$(echo $mount_entry | cut -d' ' -f3)
+        for v in ${kw_volumes[@]}; do
+            if [[ $v = $mount_point ]]; then
+                echo $mount_point
+            fi
+        done
+    done
+}
+
+case $# in
+    0)
+        case $(basename $0) in
+            kw-preup-snapshot)
+                kw_filter_volumes | kw_snapshot
+                ;;
+            kw-preup-rm-snapshots)
+                kw_filter_volumes | kw_rm_snapshot
+                ;;
+            *)
+                exit 2
+        esac
+        ;;
+    1)
+        case "$1" in
+            '-h'|'--help')
+                kw_help
+                exit 0
+                ;;
+            *)
+                kw_usage_error
+                ;;
+        esac
+        ;;
+    *)
+        kw_usage_error
+        ;;
+esac
