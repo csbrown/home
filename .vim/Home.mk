@@ -3,4 +3,5 @@ include $(HOME_CLEAR_VARS)
 
 LOCAL_INSTALL_DIR := ~/.vim
 LOCAL_INSTALL_METHOD := rsync
+LOCAL_RSYNC_EXCLUDES := doc/tags
 include $(HOME_INSTALL_MODULE)
