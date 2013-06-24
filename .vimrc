@@ -27,9 +27,6 @@ set shiftwidth=4
 " indents with 'tabstop' or 'softabstop'.
 set smarttab
 
-" Automatically break line at this column.
-set textwidth=80
-
 set formatoptions=tcqn1
 
 
