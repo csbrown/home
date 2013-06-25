@@ -101,8 +101,6 @@ shopt -s histappend
 # Prompt
 # ----------------------------------------------------------------------------
 
-source /etc/profile.d/vte.sh
-
 export PROMPT_DIRTRIM=3
 
 #
