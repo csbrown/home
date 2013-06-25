@@ -1,2 +1,5 @@
-SCALA_HOME="$HOME/opt/scala/active"; export SCALA_HOME
-kw_path_prepend "$SCALA_HOME/bin"
+if [[ -d "$HOME/opt/scala/active" ]]; then
+    SCALA_HOME="$HOME/opt/scala/active"
+    export SCALA_HOME
+    kw_path_prepend "$SCALA_HOME/bin"
+fi
