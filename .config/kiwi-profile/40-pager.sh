@@ -1,1 +1,1 @@
-PAGER="less"; export PAGER
+export PAGER="less"

@@ -1,4 +1,4 @@
 if [ -d "$HOME/opt/java/active" ]; then
-    JAVA_HOME="$HOME/opt/java/active"; export JAVA_HOME
+    export JAVA_HOME="$HOME/opt/java/active"
     kw_path_prepend "$JAVA_HOME/bin"
 fi
