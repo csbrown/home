@@ -1,4 +1,4 @@
-for i in $HOME/.bash_completion.d/*.bash; do
+for i in $(LC_COLLATE=C command ls $HOME/.bash_completion.d/*.bash); do
     if [[ -r "$i" ]]; then
         source $i
     fi
