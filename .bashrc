@@ -2,7 +2,7 @@
 # Includes
 # ----------------------------------------------------------------------------
 
-for i in $HOME/.config/kiwi-profile/*.sh; do
+for i in $(LC_COLLATE=C command ls $HOME/.profile.d/*.sh); do
     if [[ -r "$i" ]]; then
         source $i
     fi
