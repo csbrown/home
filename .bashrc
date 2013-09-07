@@ -2,10 +2,22 @@
 # Includes
 # ----------------------------------------------------------------------------
 
-for i in $(LC_COLLATE=C command ls $HOME/.profile.d/*.sh); do
-    if [[ -r "$i" ]]; then
-        source $i
+include_dirs=(
+    /opt/local/etc/profile.d
+    $HOME/.profile.d
+)
+
+for d in ${include_dirs[@]}; do
+    if ! [[ -r $d && -x $d ]]; then
+        continue
     fi
+
+    for i in $(LC_COLLATE=C command ls $d); do
+        i=$d/$i
+        if [[ $i = @(*.sh|*.bash) && -r $i ]]; then
+            source $i
+        fi
+    done
 done
 
 # ----------------------------------------------------------------------------
