@@ -1,5 +1,6 @@
-for i in $(LC_COLLATE=C command ls $HOME/.bash_completion.d/*.bash); do
-    if [[ -r "$i" ]]; then
+for i in $(LC_COLLATE=C command ls $HOME/.bash_completion.d); do
+    i=$HOME/.bash_completion.d/$i
+    if [[ $i = @(*.bash|*.sh) && -r "$i" ]]; then
         source $i
     fi
 done
