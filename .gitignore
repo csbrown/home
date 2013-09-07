@@ -1,0 +1,16 @@
+/.bash_history
+/.CFUserTextEncoding
+/.DS_Store
+/.dropbox/
+/.lesshst
+/.macports/
+/.sh_history
+/.vim/.netrwhist
+/.viminfo
+
+/dist/
+/doc/
+/man/
+/proj/
+
+/[A-Z]*
