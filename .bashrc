@@ -114,13 +114,6 @@ shopt -s histappend
 # ----------------------------------------------------------------------------
 
 export PROMPT_DIRTRIM=3
-
-if type -t __vte_prompt_command >&/dev/null; then
-    PROMPT_COMMAND="__vte_prompt_command;"
-else
-    PROMPT_COMMAND=""
-fi
-
 export PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
 
 #
