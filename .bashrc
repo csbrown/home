@@ -115,28 +115,26 @@ shopt -s histappend
 
 export PROMPT_DIRTRIM=3
 
+if type -t __vte_prompt_command >&/dev/null; then
+    PROMPT_COMMAND="__vte_prompt_command;"
+else
+    PROMPT_COMMAND=""
+fi
+
+export PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
+
 #
 # Set colors for a terminal with light background.
 #
 function kw_bg_light() {
-    if type -t __vte_prompt_command >&/dev/null; then
-        PROMPT_COMMAND="__vte_prompt_command;"
-    else
-        PROMPT_COMMAND=""
-    fi
-    export PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_color_bg_hi_green}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
+    kw_ps1_bg_color="$kw_color_bg_hi_green"
 }
 
 #
 # Set colors for a terminal with dark background.
 #
 function kw_bg_dark() {
-    if type -t __vte_prompt_command >&/dev/null; then
-        PROMPT_COMMAND="__vte_prompt_command;"
-    else
-        PROMPT_COMMAND=""
-    fi
-    export PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_color_bg_blue}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
+    kw_ps1_bg_color="$kw_color_bg_blue"
 }
 
 # Assume a dark background.
