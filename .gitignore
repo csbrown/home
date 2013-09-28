@@ -1,13 +1,16 @@
 /.CFUserTextEncoding
 /.DS_Store
+/.Trash/
 /.bash_history
 /.dropbox/
+/.histfile
 /.lesshst
 /.macports/
 /.sh_history
 /.vim/.netrwhist
 /.viminfo
-
+/.zcompdump
+/.zhistfile
 /dist/
 /doc/
 /man/
