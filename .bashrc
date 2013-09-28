@@ -126,19 +126,19 @@ export PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:
 #
 # Set colors for a terminal with light background.
 #
-function kw_bg_light() {
+function kw_ps1_light() {
     kw_ps1_bg_color="$kw_color_bg_hi_green"
 }
 
 #
 # Set colors for a terminal with dark background.
 #
-function kw_bg_dark() {
+function kw_ps1_dark() {
     kw_ps1_bg_color="$kw_color_bg_blue"
 }
 
 # Assume a dark background.
-kw_bg_dark
+kw_ps1_dark
 
 # ----------------------------------------------------------------------------
 # Misc Options
