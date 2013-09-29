@@ -6,6 +6,8 @@ export CCACHE_CPP2=1
 
 export CCACHE_DIR="$HOME/.cache/ccache"
 
+kw_path_prepend "$HOME/.config/ccache/bin"
+
 # From ccache(1):
 #   If you strike problems with GDB not using the correct directory then
 #   enable this option.
