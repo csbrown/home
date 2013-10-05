@@ -15,6 +15,9 @@ case "$exe_name" in
     "gvimclient")
         real_exe="gvim"
         ;;
+    "mvimclient")
+        real_exe="mvim"
+        ;;
     *)
         echo "error: $exe_name: internal error"
         ;;
