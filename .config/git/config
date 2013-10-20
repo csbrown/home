@@ -12,6 +12,7 @@
 	st = status -s
 [user]
 	name = Chad Versace
+	email = chad@chad-verssace.us
 [core]
 	excludesfile = ~/.config/git/excludes
 [color]
