@@ -4,6 +4,9 @@
 nohup.out
 *.ignore
 
+# Apple crumbs
+.DS_Store
+
 # vim crumbs
 *~
 *.swn
