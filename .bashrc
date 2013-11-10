@@ -94,15 +94,6 @@ if which pacman-color >&/dev/null; then
     alias pacman='pacman-color'
 fi
 
-set noclobber
-
-# Check winsize after each command. If winsize changed, then update LINES and
-# COLUMNS.
-shopt -s checkwinsize
-
-# Attempt spell checking.
-shopt -s dirspell
-
 # ----------------------------------------------------------------------------
 # History
 # ----------------------------------------------------------------------------
@@ -146,9 +137,18 @@ kw_ps1_dark
 # Misc Options
 # ----------------------------------------------------------------------------
 
+set noclobber
+
+# Check winsize after each command. If winsize changed, then update LINES and
+# COLUMNS.
+shopt -s checkwinsize
+
+# Attempt spell checking.
+shopt -s dirspell
 
 # Finish ---------------------------------------------------------------------
 
 export PATH
+
 
 # vim: ft=sh et sw=4:
