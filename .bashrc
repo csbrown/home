@@ -47,42 +47,52 @@ function upd() {
 # Aliases
 # ----------------------------------------------------------------------------
 
+# ------------------------------
 # diff
-    if which colordiff >&/dev/null; then
-        alias diff='colordiff'
-    fi
+# ------------------------------
+if which colordiff >&/dev/null; then
+    alias diff='colordiff'
+fi
 
+# ------------------------------
 # dirs
-    alias dirs='dirs -v'
+# ------------------------------
+alias dirs='dirs -v'
 
+# ------------------------------
 # grep
-    _kw_grep_opts='--color=auto'
+# ------------------------------
+_kw_grep_opts='--color=auto'
 
-    alias egrep="egrep $_kw_grep_opts"
-    alias grep="grep $_kw_grep_opts"
+alias egrep="egrep $_kw_grep_opts"
+alias grep="grep $_kw_grep_opts"
 
-    unset _kw_grep_opts
+unset _kw_grep_opts
 
+# ------------------------------
 # ls
-    case "$(uname)" in
-        'Linux')
-            _kw_ls_opts='-vh --color=auto'
-            ;;
-        'Darwin')
-            _kw_ls_opts='-vhG'
-            ;;
-    esac
+# ------------------------------
+case "$(uname)" in
+    'Linux')
+        _kw_ls_opts='-vh --color=auto'
+        ;;
+    'Darwin')
+        _kw_ls_opts='-vhG'
+        ;;
+esac
 
-    alias lc="ls -C $_kw_ls_opts"
-    alias ls="ls -1 $_kw_ls_opts"
-    alias ll="ls -l $_kw_ls_opts"
+alias lc="ls -C $_kw_ls_opts"
+alias ls="ls -1 $_kw_ls_opts"
+alias ll="ls -l $_kw_ls_opts"
 
-    unset _kw_ls_opts
+unset _kw_ls_opts
 
+# ------------------------------
 # pacman
-    if which pacman-color >&/dev/null; then
-        alias pacman='pacman-color'
-    fi
+# ------------------------------
+if which pacman-color >&/dev/null; then
+    alias pacman='pacman-color'
+fi
 
 set noclobber
 
