@@ -6,28 +6,24 @@
 	co = checkout
 	cp = cherry-pick
 	dc = diff --cached
+	graph = log --graph --decorate --oneline
 	rb = rebase
 	rb-c = rebase --continue
-	root = !pwd
+	root = rev-parse --show-toplevel
 	st = status -s
 [user]
 	name = Chad Versace
 	email = chad@chad-verssace.us
 [core]
 	excludesfile = ~/.config/git/excludes
-[color]
-	ui = true
+	pager = tig
 [merge]
-	tool = gvimdiff
-[ui]
-	color = true
+	tool = vimdiff
 [push]
 	default = simple
 [rebase]
 	stat = true
 [include]
 	path = ~/.config/git/local/config
-[rerere]
-	enabled = 1
 [grep]
 	lineNumber = 1
