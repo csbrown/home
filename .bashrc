@@ -127,6 +127,11 @@ else
     kw_prompt_command_old=true
 fi
 
+source /usr/share/git-core/contrib/completion/git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+
 PROMPT_DIRTRIM=3
 PROMPT_COMMAND="kw_prompt_command_guard; ${kw_prompt_command_old}; PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
 
