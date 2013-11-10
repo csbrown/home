@@ -20,8 +20,6 @@
 	ui = true
 [merge]
 	tool = gvimdiff
-[ui]
-	color = true
 [push]
 	default = simple
 [rebase]
