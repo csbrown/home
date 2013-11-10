@@ -100,11 +100,11 @@ fi
 
 # Special tokens:
 #       &: Ignore current line if it matches previous.
-export HISTIGNORE="&"
+HISTIGNORE="&"
 
 # ignorespace: Ignore lines that begin with a space. This allows the user to
 #       manually filter commands from history.
-export HISTCONTROL="ignorespace"
+HISTCONTROL="ignorespace"
 
 # Append to history file; don't overwrite it.
 shopt -s histappend
@@ -117,8 +117,8 @@ if [[ "$PROMPT_COMMAND" ]]; then
     PROMPT_COMMAND="$PROMPT_COMMAND; "
 fi
 
-export PROMPT_DIRTRIM=3
-export PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
+PROMPT_DIRTRIM=3
+PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
 
 #
 # Set colors for a terminal with light background.
