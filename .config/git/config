@@ -26,7 +26,5 @@
 	stat = true
 [include]
 	path = ~/.config/git/local/config
-[rerere]
-	enabled = 1
 [grep]
 	lineNumber = 1
