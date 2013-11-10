@@ -19,7 +19,7 @@
 [color]
 	ui = true
 [merge]
-	tool = gvimdiff
+	tool = vimdiff
 [push]
 	default = simple
 [rebase]
