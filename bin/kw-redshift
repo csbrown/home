@@ -1,3 +1,0 @@
-#!/bin/bash
-
-exec redshift -c $HOME/.config/kiwi-redshift/default.conf

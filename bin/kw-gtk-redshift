@@ -1,3 +1,0 @@
-#!/bin/bash
-
-exec gtk-redshift -c $HOME/.config/kiwi-redshift/default.conf
