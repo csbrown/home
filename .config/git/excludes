@@ -27,3 +27,6 @@ __pycache__
 .project
 .pydevproject
 .settings
+
+# autotools crumbs
+build-aux/
