@@ -6,6 +6,7 @@
 	co = checkout
 	cp = cherry-pick
 	dc = diff --cached
+	graph = log --graph --decorate --oneline
 	rb = rebase
 	rb-c = rebase --continue
 	root = !pwd
