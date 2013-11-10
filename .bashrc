@@ -113,12 +113,34 @@ shopt -s histappend
 # Prompt
 # ----------------------------------------------------------------------------
 
-if [[ "$PROMPT_COMMAND" ]]; then
-    PROMPT_COMMAND="$PROMPT_COMMAND; "
+if [[ "$PROMPT_COMMAND" = kw_prompt_command_guard\;* ]]; then
+    # ~/.bashrc has previously set PROMPT_COMMAND, perhaps because we are in
+    # a subshell. Don't set it again.
+    kw_prompt_command_old=true
+elif [[ "$PROMPT_COMMAND" ]]; then
+    # The system has defined PROMPT_COMMAND, and ~/.bashrc has not yet
+    # overridden it. Let's append our custom prompt command to the system's.
+    kw_prompt_command_old="$PROMPT_COMMAND"
+else
+    # PROMPT_COMMAND is empty. Neither the system nor a previous invocation of
+    # ~/.bashrc has set it.
+    kw_prompt_command_old=true
 fi
 
 PROMPT_DIRTRIM=3
-PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
+PROMPT_COMMAND="kw_prompt_command_guard; ${kw_prompt_command_old}; PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
+
+#
+# The PROMPT_COMMAND begins with this canary function if and only if ~/.bashrc
+# already set PROMPT_COMMAND, possibly overriding any system-defined
+# PROMPT_COMMAND.
+#
+# Careful use of this canary allows us to avoid setting an invalid
+# PROMPT_COMMAND in subshells.
+#
+function kw_prompt_command_guard() {
+    true
+}
 
 #
 # Set colors for a terminal with light background.
