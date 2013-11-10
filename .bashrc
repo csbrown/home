@@ -146,9 +146,4 @@ shopt -s checkwinsize
 # Attempt spell checking.
 shopt -s dirspell
 
-# Finish ---------------------------------------------------------------------
-
-export PATH
-
-
 # vim: ft=sh et sw=4:
