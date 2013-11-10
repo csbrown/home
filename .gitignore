@@ -38,8 +38,12 @@
 !/.vim/
 !/.vim/**
 !/.vimrc
+!/.weechat
+!/.weechat/**
 !/README.markdown
 !/bin/
 !/bin/**
 
 /.config/gnome-session/sessions/gnome.session
+/.weechat/*.log
+/.weechat/logs/
