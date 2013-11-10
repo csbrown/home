@@ -30,7 +30,6 @@
 !/.hgignore
 !/.hgrc
 !/.inputrc
-!/.local/share/applications/gtk-redshift.desktop
 !/.mailcap
 !/.profile.d/
 !/.profile.d/**
@@ -42,9 +41,5 @@
 !/README.markdown
 !/bin/
 !/bin/**
-!/opt/git-repo/
-!/opt/git-repo/**
-!/opt/taro/
-!/opt/taro/**
 
 /.config/gnome-session/sessions/gnome.session
