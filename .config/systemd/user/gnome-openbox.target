@@ -1,0 +1,8 @@
+[Unit]
+Description=Kiwi Desktop Environment
+Wants=gnome.target
+Wants=openbox.target
+AllowIsolate=true
+
+[Install]
+Alias=default.target

@@ -1,12 +1,12 @@
 [Unit]
 Description=Desktop Notification Daemon
 After=xorg.target
-Requires=dbus.socket
 Documentation=http://live.gnome.org/NotificationDaemon
 
 [Service]
 ExecStart=/usr/libexec/notification-daemon
 Restart=on-failure
+RestartSec=1s
 
 [Install]
 WantedBy=xorg.target

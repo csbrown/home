@@ -1,11 +1,11 @@
 [Unit]
-Description=sample X compositing manager
-Documentation=man:xcompmgr(1)
+Description=XScreensaver
+Documentation=man:xscreensaver(1)
 Requires=xorg.target
 After=xorg.target
 
 [Service]
-ExecStart=/bin/xcompmgr
+ExecStart=/bin/xscreensaver -no-splash
 Restart=on-failure
 
 [Install]

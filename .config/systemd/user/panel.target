@@ -1,5 +1,0 @@
-
-[Unit]
-Description=Desktop Panel
-Wants=xorg.target
-Requires=dbus.socket

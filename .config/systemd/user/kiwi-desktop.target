@@ -1,5 +1,0 @@
-[Unit]
-Description=Kiwi Desktop Environment
-Wants=xorg.target
-Requires=dbus.socket
-AllowIsolate=true

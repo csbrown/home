@@ -1,0 +1,10 @@
+[Unit]
+Description=Set background with feh
+After=xorg.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c '. %h/.fehbg'
+
+[Install]
+WantedBy=xorg.target

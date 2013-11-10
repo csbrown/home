@@ -1,6 +1,4 @@
-
 [Unit]
 Description=The GNOME Desktop Environment
-Wants=xorg.target
-Requires=dbus.socket
+Wants=gnome-session.service
 AllowIsolate=true

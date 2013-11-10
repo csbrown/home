@@ -1,7 +1,7 @@
 [Unit]
 Description=lightweight panel/taskbar
 Documentation=man:tint2(1)
-Requires=dbus.socket
+Requires=xorg.target
 After=xorg.target
 Before=panel.target
 
@@ -10,4 +10,4 @@ ExecStart=/bin/tint2
 Restart=on-failure
 
 [Install]
-WantedBy=panel.target
+Alias=panel.service
