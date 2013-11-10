@@ -45,5 +45,7 @@
 !/bin/**
 
 /.config/gnome-session/sessions/gnome.session
+/.vim/bundle/*/doc/tags
+/.vim/.netrwhist
 /.weechat/*.log
 /.weechat/logs/
