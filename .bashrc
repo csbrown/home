@@ -113,6 +113,10 @@ shopt -s histappend
 # Prompt
 # ----------------------------------------------------------------------------
 
+if [[ "$PROMPT_COMMAND" ]]; then
+    PROMPT_COMMAND="$PROMPT_COMMAND; "
+fi
+
 export PROMPT_DIRTRIM=3
 export PROMPT_COMMAND="${PROMPT_COMMAND}PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
 
