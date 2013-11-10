@@ -9,7 +9,7 @@
 	graph = log --graph --decorate --oneline
 	rb = rebase
 	rb-c = rebase --continue
-	root = !pwd
+	root = rev-parse --show-toplevel
 	st = status -s
 [user]
 	name = Chad Versace
