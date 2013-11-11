@@ -127,7 +127,18 @@ else
     kw_prompt_command_old=true
 fi
 
-source /usr/share/git-core/contrib/completion/git-prompt.sh
+# Include git-prompt.sh.
+# Each system installs git-prompt.sh to a different location.
+for git_prompt in \
+        /usr/share/git-core/contrib/completion/git-prompt.sh \
+        /usr/share/git/git-prompt.sh \
+        /usr/share/git/completion/git-prompt.sh; do
+    if [[ -f $git_prompt ]]; then
+        source $git_prompt
+        break;
+    fi
+done
+
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
