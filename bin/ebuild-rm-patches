@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+prog_name=$(basename "$0")
+
+function fatal_error() {
+    echo "$prog_name: error: $@"
+    exit 1
+}
+
+function usage_error() {
+    echo "$prog_name: usage error: $@"
+    echo
+    echo "usage: $prog_name <ebuild>"
+    exit 1
+}
+
+if [[ $# -ne 1 ]]; then
+    usage_error
+fi
+
+ebuild="$1"
+FILESDIR=$(cd $(dirname $ebuild)/files && pwd | sed 's+/+\\/+g')
+
+rm -rf $FILESDIR/*.patch
+sed -i -e '/epatch "${FILESDIR}"/d' $ebuild
