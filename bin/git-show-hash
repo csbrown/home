@@ -1,0 +1,23 @@
+#!/bin/bash
+
+function usage_error() {
+    echo "$(basename "$0"): usage error"
+    exit 1
+}
+
+format="%h"
+
+if [[ $# -ge 1 ]]; then
+    case "$1" in
+        -h)
+            format="%h"
+            shift
+            ;;
+        -H)
+            format="%H"
+            shift
+            ;;
+    esac
+fi
+
+exec git --no-pager show -s --format="$format" "$@"
