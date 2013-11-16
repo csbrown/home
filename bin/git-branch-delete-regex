@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+function find_branches() {
+    if [[ $# = 0 ]]; then
+        echo "$(basename "$0"): usage error"
+    fi
+
+    git branch | sed 's/^  //' | grep -E "$@"
+}
+
+if [[ "$1" = "-n" ]]; then
+    # Do dry run
+    shift
+    find_branches "$@"
+else
+    find_branches "$@" | xargs git branch -D
+fi
