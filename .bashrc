@@ -132,7 +132,9 @@ fi
 for git_prompt in \
         /usr/share/git-core/contrib/completion/git-prompt.sh \
         /usr/share/git/git-prompt.sh \
-        /usr/share/git/completion/git-prompt.sh; do
+        /usr/share/git/completion/git-prompt.sh \
+        /opt/local/share/git-core/git-prompt.sh \
+        /opt/local/share/git-core/contrib/completion/git-prompt.sh; do
     if [[ -f $git_prompt ]]; then
         source $git_prompt
         break;
