@@ -116,7 +116,7 @@ shopt -s histappend
 if [[ "$PROMPT_COMMAND" = kw_prompt_command_guard\;* ]]; then
     # ~/.bashrc has previously set PROMPT_COMMAND, perhaps because we are in
     # a subshell. Don't set it again.
-    kw_prompt_command_old=true
+    kw_prompt_command_old='true;'
 elif [[ "$PROMPT_COMMAND" ]]; then
     # The system has defined PROMPT_COMMAND, and ~/.bashrc has not yet
     # overridden it. Let's append our custom prompt command to the system's.
@@ -124,7 +124,7 @@ elif [[ "$PROMPT_COMMAND" ]]; then
 else
     # PROMPT_COMMAND is empty. Neither the system nor a previous invocation of
     # ~/.bashrc has set it.
-    kw_prompt_command_old=true
+    kw_prompt_command_old='true;'
 fi
 
 # Include git-prompt.sh.
@@ -144,7 +144,7 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 
 PROMPT_DIRTRIM=3
-PROMPT_COMMAND="kw_prompt_command_guard; ${kw_prompt_command_old}; PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
+PROMPT_COMMAND="kw_prompt_command_guard; ${kw_prompt_command_old} PS1=\"\e[\${kw_ps1_bg_color}m[\!] \u@\h:\w\$(__git_ps1 \" (%s)\")\e[${kw_color_reset}m\n> \""
 
 #
 # The PROMPT_COMMAND begins with this canary function if and only if ~/.bashrc
