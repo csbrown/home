@@ -30,3 +30,5 @@
 [color]
 	ui = true
 	pager = false
+[pager]
+	log = less
