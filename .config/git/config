@@ -13,7 +13,7 @@
 	st = status -s
 [user]
 	name = Chad Versace
-	email = chad@chad-verssace.us
+	email = chad@chad-versace.us
 [core]
 	excludesfile = ~/.config/git/excludes
 	pager = tig
