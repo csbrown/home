@@ -43,6 +43,10 @@
 !/README.markdown
 !/bin/
 !/bin/**
+!/lib/
+!/lib/bash/
+!/lib/bash/kiwi/
+!/lib/bash/kiwi/**
 
 /.config/gnome-session/sessions/gnome.session
 /.vim/bundle/*/doc/tags
