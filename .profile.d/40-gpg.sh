@@ -3,11 +3,23 @@ export GPG_AGENT_LOCK="$HOME/.gnupg/gpg-agent.lock"
 export GPG_AGENT_ENV="$HOME/.gnupg/gpg-agent.env"
 
 function kw_gpg_start_agent() {
+    local PINENTRY_BINARY
+
     if ! [[ -d "$HOME/.gnupg" ]]; then
         return 1
     fi
 
+    case "$(uname)" in
+        'Linux')
+            PINENTRY_BINARY='/usr/bin/pinentry-curses'
+            ;;
+        'Darin')
+            PINENTRY_BINARY='/opt/local/bin/pinentry-curses'
+            ;;
+    esac
+
     if ! flock -n "$GPG_AGENT_LOCK" \
+            env PINENTRY_BINARY="$PINENTRY_BINARY" \
             gpg-agent \
                 --daemon \
                 --write-env-file "$GPG_AGENT_ENV" >&/dev/null
