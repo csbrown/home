@@ -6,9 +6,25 @@ function kw_ssh_start_agent() {
     then return 1
     fi
 
-    if ! flock -n "$kw_ssh_agent_lock" \
-            sh -c "ssh-agent > '$kw_ssh_agent_env_file'"
-    then return 1
+    if which flock >&/dev/null; then
+        if ! flock -n "$kw_ssh_agent_lock" \
+                sh -c "ssh-agent > '$kw_ssh_agent_env_file'"
+        then return 1
+        fi
+    elif which python >&/dev/null; then
+        # Mac lacks flock(1), yet Python 2.7 exposes flock(2) through the fcntl
+        # module.
+        if ! python >&/dev/null <(cat <<-EOF
+		import fcntl, os
+		with open('$kw_ssh_agent_lock', 'w') as lock_file:
+		    fcntl.flock(lock_file, fcntl.LOCK_NB | fcntl.LOCK_EX)
+		    os.execvp('sh', ['sh', '-c', 'ssh-agent > "$kw_ssh_agent_env_file"'])
+		EOF
+		)
+        then return 1
+        fi
+    else
+        return 1
     fi
 
     (
