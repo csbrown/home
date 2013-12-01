@@ -48,6 +48,14 @@
 !/lib/bash/kiwi/
 !/lib/bash/kiwi/**
 
+!/.gnupg/
+!/.gnupg/*
+/.gnupg/S.*
+/.gnupg/gpg-agent-info-*
+/.gnupg/gpg-agent.env
+/.gnupg/gpg-agent.lock
+/.gnupg/random_seed
+
 /.config/gnome-session/sessions/gnome.session
 /.vim/bundle/*/doc/tags
 /.vim/.netrwhist
