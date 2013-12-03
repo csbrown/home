@@ -70,8 +70,6 @@ let mapleader = ","
 nnoremap <leader>erc :split $MYVIMRC<cr>
 nnoremap <leader>src :source $MYVIMRC<cr>
 
-map Y y$
-
 " In command mode, <ENTER> behaves the same as in WYSIWYG editors.
 map <CR> o<ESC>
 map <S-CR> O<ESC>
