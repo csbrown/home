@@ -9,7 +9,6 @@ hgext.extdiff =
 hgext.fetch =
 hgext.bookmarks =
 hgext.graphlog =
-hgext.highlight =
 hgext.mq =
 hgext.progress =
 hgext.purge = 
