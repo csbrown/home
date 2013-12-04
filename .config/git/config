@@ -32,3 +32,5 @@
 	pager = false
 [pager]
 	log = less
+[log]
+	decorate = true
