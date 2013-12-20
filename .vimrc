@@ -110,7 +110,7 @@ set sessionoptions=buffers,folds,globals,help,localoptions,resize,tabpages,winpo
 set backspace=indent,eol,start
 set matchpairs+=<:>
 set modeline
-set mouse=a
+set mouse=
 set spelllang=en_us
 set visualbell
 set wildmenu
