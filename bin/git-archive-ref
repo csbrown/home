@@ -22,7 +22,7 @@ def main():
         fatal_error('HEAD is not a symbolic-ref')
 
     sha = check_output(['git', 'show', '-s', '--format=format:%H', 'HEAD']).decode().rstrip()
-    date = check_output(['date', '--utc', '+%F-%H-%M-%S']).decode().rstrip()
+    date = check_output(['date', '-u', '+%F-%H-%M-%S']).decode().rstrip()
     archive_symbolic_ref = os.path.join(cur_symbolic_ref.replace('refs/', 'refs/archive/', 1), date)
 
     check_call(['git', 'update-ref', archive_symbolic_ref, sha])
