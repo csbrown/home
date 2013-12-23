@@ -76,6 +76,14 @@ noremap <S-CR> O<ESC>
 
 nnoremap K :Man <cword><cr>
 
+nnoremap <leader>tb :TagbarToggle<cr>
+
+nnoremap <leader>cp :CtrlP<cr>
+nnoremap <leader>cpf :CtrlP<cr>
+nnoremap <leader>cpb :CtrlPBuffer<cr>
+nnoremap <leader>cpr :CtrlPMRU<cr>
+nnoremap <leader>cpt :CtrlPTag<cr>
+
 " ----------------------------------------------------------------------------
 " Filetypes
 " ----------------------------------------------------------------------------
