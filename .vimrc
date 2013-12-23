@@ -67,7 +67,7 @@ set listchars=tab:>-,extends:%,precedes:%
 
 let mapleader = ","
 
-nnoremap <leader>erc :split $MYVIMRC<cr>
+nnoremap <leader>erc :tabedit $MYVIMRC<cr>
 nnoremap <leader>src :source $MYVIMRC<cr>
 
 " In command mode, <ENTER> behaves the same as in WYSIWYG editors.
