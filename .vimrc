@@ -71,8 +71,8 @@ nnoremap <leader>erc :tabedit $MYVIMRC<cr>
 nnoremap <leader>src :source $MYVIMRC<cr>
 
 " In command mode, <ENTER> behaves the same as in WYSIWYG editors.
-map <CR> o<ESC>
-map <S-CR> O<ESC>
+noremap <CR> o<ESC>
+noremap <S-CR> O<ESC>
 
 nnoremap K :Man <cword><cr>
 
