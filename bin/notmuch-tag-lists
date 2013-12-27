@@ -1,0 +1,33 @@
+#!/bin/bash
+
+notmuch tag +list \
+       to:lists.freedesktop.org \
+    or to:lists.x.org \
+    \
+    or to:cros-dev@linux.intel.com \
+    or to:cros-images@linux.intel.com \
+    or to:android-gfx-media@linux.intel.com \
+    or to:android-ia@linux.intel.com \
+    or to:intel-gfx-internal@linux.intel.com \
+    \
+    or to:arb@khronos.org \
+    or to:bugzilla@khronos.org \
+    or to:camera@khronos.org \
+    or to:ecosystem@khronos.org \
+    or to:egl@khronos.org \
+    or to:egl@khronos.org \
+    or to:gl_common_cts@khronos.org \
+    or to:gl_common@khronos.org \
+    or to:glsl@khronos.org \
+    or to:khr_conformance_master@khronos.org \
+    or to:khronos_general@khronos.org \
+    or to:khronos_map@khronos.org \
+    or to:khronos_promoters@khronos.org \
+    or to:nextgen@khronos.org \
+    or to:opencl@khronos.org \
+    or to:opengl_es_cts@khronos.org \
+    or to:opengl_es@khronos.org \
+    or to:openvg@khronos.org \
+    or to:review_board@khronos.org \
+    or to:webmaster@khronos.org \
+    or to:work_group_chairs@khronos.org

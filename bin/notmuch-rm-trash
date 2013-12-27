@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -eu
+
+prog_name="$(basename "$0")"
+
+if [[ $# -ne 0 ]]; then
+    echo >&2 "$prog_name: usage error"
+    exit 2
+fi
+
+function echo_do() {
+    echo "$@"
+    "$@"
+}
+
+notmuch search --output=files tag:trash \
+| while read line; do
+    echo_do rm -f "$line"
+done
