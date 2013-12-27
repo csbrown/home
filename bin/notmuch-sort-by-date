@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+import os
+import os.path
+import argparse
+import subprocess
+from subprocess import PIPE
+
+def foreach_date(callback):
+    for year in range(2010, 2049):
+        for month in range(1, 13):
+            callback(year=year, month=month)
+
+def maildir_name(year, month):
+    return 'Archive.{0:04}.{1:02}'.format(year, month)
+
+def maildir_get_path(year, month):
+    return os.path.join(maildir_top, '.' + maildir_name(year, month))
+
+def maildir_make(year, month):
+    maildir_path = maildir_get_path(year, month)
+    marker = os.path.join(maildir_get_path(year, month), 'maildirfolder')
+    dirs = [
+        os.path.join(maildir_path, 'new'),
+        os.path.join(maildir_path, 'tmp'),
+        os.path.join(maildir_path, 'cur'),
+    ]
+
+    for d in dirs:
+        if not os.path.isdir(d):
+            os.makedirs(d)
+
+    if not os.path.exists(marker):
+        open(marker, 'a').close()
+
+def sort_messages(year, month):
+    maildir_path = maildir_get_path(year, month)
+    search_args = [
+        'notmuch', 'search', '--output=files',
+        'date:{0:04}-{1:02}..{0:04}-{1:02}'.format(year, month),
+    ]
+    search_proc = subprocess.Popen(search_args, stdout=PIPE)
+    for msg_src in search_proc.stdout:
+        msg_src = msg_src.decode().rstrip()
+        msg_basename = os.path.basename(msg_src)
+
+        newtmpcur = os.path.basename(os.path.dirname(msg_src))
+        if newtmpcur not in ['new', 'tmp', 'cur']:
+            newtmpcur = 'new'
+
+        msg_dest = os.path.join(maildir_path, newtmpcur, msg_basename)
+        try:
+            if os.path.samefile(msg_src, msg_dest):
+                continue
+        except FileNotFoundError:
+            pass
+
+        print("mv {0} {1}".format(msg_src, msg_dest))
+        os.rename(msg_src, msg_dest)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('maildir_top')
+args = parser.parse_args()
+maildir_top = args.maildir_top
+
+foreach_date(maildir_make)
+foreach_date(sort_messages)
+subprocess.check_call(['notmuch', 'new'])
