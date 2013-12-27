@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+
+import argparse
+import mailbox
+import sys
+
+parser = argparse.ArgumentParser(
+            description='Move messages from an mbox into a maildir')
+parser.add_argument('mbox')
+parser.add_argument('maildir')
+args = parser.parse_args()
+
+mbox = mailbox.mbox(args.mbox, create=False)
+maildir = mailbox.Maildir(args.maildir)
+
+for msg in mbox.itervalues():
+    maildir.add(msg)
+
+maildir.close()
