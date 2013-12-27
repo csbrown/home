@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -eu
+
+tmpdir="$(mktemp -d)"
+file_list="$tmpdir/list"
+
+function on_exit() {
+    rm -rf "$tmpdir"
+}
+
+trap on_exit EXIT
+
+while true; do
+    files_removed=0
+    notmuch search --duplicate=2 --output=files "$@" >"$file_list"
+
+    while read file; do
+        echo rm -rf "$file"
+        rm -rf "$file"
+        ((++files_removed))
+    done <"$file_list"
+
+    if [[ $files_removed -eq 0 ]]; then
+        exit 0
+    fi
+
+    notmuch new
+done
