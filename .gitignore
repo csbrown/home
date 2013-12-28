@@ -26,6 +26,7 @@
 !/.config/tint2/
 !/.config/tint2/**
 !/.ctags
+!/.fetchmailrc
 !/.gitignore
 !/.gitmodules
 !/.gvimrc
