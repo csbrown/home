@@ -37,6 +37,9 @@
 !/.mailfilter
 !/.mailfilters/
 !/.mailfilters/**
+!/.mutt/
+!/.mutt/**
+!/.muttrc
 !/.profile.d/
 !/.profile.d/**
 !/.rpmmacros
