@@ -5,6 +5,10 @@
 " Remove all autocommands for the current group.
 autocmd!
 
+if ! empty($kw_goroot)
+    set runtimepath+=$kw_goroot/misc/vim
+endif
+
 call pathogen#infect()
 
 runtime ftplugin/man.vim
