@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -eu
+
+if ! [[ -d /.snapshosts ]]; then
+    mkdir -p /.snapshots
+fi
+
+btrfs subvolume snapshot / /.snapshots/backup-"$(date -u --rfc-3339=ns | sed 's/ /T/')"
