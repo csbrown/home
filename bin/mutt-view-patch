@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#
+# Exec tig as a pager. If in a tmux session, exec tig in a new window.
+#
+# This scripts intends to be used by Mutt to handle MIME type
+# text/plain to pretty-print patches.
+#
+
+prog_name="$(basename "$0")"
+
+function print_usage() {
+    echo "usage: $prog_name [file]"
+}
+
+if [[ $# -gt 1 ]]; then
+    echo >&2 "usage error: $prog_name"
+    print_usage >&2
+    exit 2
+fi
+
+if [[ "$TMUX" ]]; then
+    if [[ $# -eq 0 ]]; then
+        patch_file="$(realpath /dev/stdin)"
+        if ! [[ -f "$patch_file" ]]; then
+            tmpdir="$(mktemp -d)"
+            cat >"$tmpdir/patch"
+            patch_file="$tmpdir/patch"
+        fi
+    else
+        patch_file="$1"
+    fi
+
+    tmux new-window -n patch "tig <\"$patch_file\""
+    sleep 1
+
+    if [[ "$tmpdir" ]]; then
+        rm -r "$tmpdir"
+    fi
+else
+    if [[ $# -eq 0 ]]; then
+        tig 
+    else
+        tig <"$1"
+    fi
+fi
