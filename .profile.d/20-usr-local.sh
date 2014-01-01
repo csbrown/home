@@ -1,7 +1,0 @@
-kw_dirlist_prepend PATH "/usr/local/bin"
-kw_dirlist_prepend PATH "/usr/local/sbin"
-kw_dirlist_prepend LD_LIBRARY_PATH "/usr/local/lib"
-kw_dirlist_prepend LD_LIBRARY_PATH "/usr/local/lib64"
-kw_dirlist_prepend PKG_CONFIG_PATH "/usr/local/lib/pkgconfig"
-kw_dirlist_prepend PKG_CONFIG_PATH "/usr/local/lib64/pkgconfig"
-kw_dirlist_prepend PKG_CONFIG_PATH "/usr/local/share/pkgconfig"
