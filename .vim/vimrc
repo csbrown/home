@@ -102,6 +102,10 @@ autocmd BufRead,BufNewFile *.y,*.ypp set filetype=yacc
 " Use standard formatting for PKGBUILD.
 autocmd BufNewFile,BufRead PKGBUILD* set et ts=2 sw=2
 
+" Disable this option because it always annoyingly highlights the line
+" currently being edited as having errors.
+let go_highlight_trailing_whitespace_error = 0
+
 " ----------------------------------------------------------------------------
 " Misc
 " ----------------------------------------------------------------------------
