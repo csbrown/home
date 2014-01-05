@@ -96,6 +96,9 @@ nnoremap <leader>cpt :CtrlPTag<cr>
 " Automatically detect filetype, and load its plugin and indent file.
 filetype plugin indent on
 
+" Go has a standard code style. Go uses tabs not spaces.
+autocmd BufRead,BufNewFile *.go set noet ts=4 sw=4
+
 autocmd BufRead,BufNewFile *.l,*.lpp set filetype=lex
 autocmd BufRead,BufNewFile *.scala set filetype=scala
 autocmd BufRead,BufNewFile *.y,*.ypp set filetype=yacc
