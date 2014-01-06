@@ -33,7 +33,7 @@ set shiftwidth=4
 " indents with 'tabstop' or 'softabstop'.
 set smarttab
 
-set formatoptions=tcqn1
+set formatoptions=tcroqn1j
 
 
 " ----------------------------------------------------------------------------
