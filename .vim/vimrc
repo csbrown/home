@@ -35,6 +35,7 @@ set smarttab
 
 set formatoptions=tcroqn1j
 
+set autoindent
 
 " ----------------------------------------------------------------------------
 " Appearance
