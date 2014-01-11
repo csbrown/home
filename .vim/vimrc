@@ -33,6 +33,28 @@ set shiftwidth=4
 " indents with 'tabstop' or 'softabstop'.
 set smarttab
 
+" formatoptions
+"
+"   t  Auto-wrap text using textwidth
+"
+"   c  Auto-wrap comments using textwidth, inserting the current comment
+"      leader automatically.
+"
+"   r  Automatically insert the current comment leader after hitting
+"     <Enter> in Insert mode.
+"
+"   o  Automatically insert the current comment leader after hitting 'o' or
+"     'O' in Normal mode.
+"
+"   n  When formatting text, recognize numbered lists.  This actually uses
+"      the 'formatlistpat' option, thus any kind of list can be used. [...]
+"      Note that 'autoindent' must be set too.  Doesn't work well well
+"      together with "2".
+"
+"   1  Allow formatting of comments with "gq".
+"
+"   j  Where it makes sense, remove a comment leader when joining lines.
+"
 set formatoptions=tcroqn1j
 
 set autoindent
