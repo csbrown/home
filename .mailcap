@@ -1,2 +1,14 @@
-text/html; w3m %s; needsterminal; nametemplate=%s.html
-text/html; w3m -dump %s; copiousoutput; nametemplate=%s.html
+text/plain; mutt-view-patch
+
+text/html; xdg-open %s & sleep 4; test=running-x; nametemplate=%s.html
+text/html; lynx %s; nametemplate=%s.html; needsterminal
+text/html; w3m -I %{charset} -T text/html %s; copiousoutput; needsterminal
+text/html; lynx -dump %s; nametemplate=%s.html; copiousoutput; needsterminal
+
+application/pdf; xdg-open %s & sleep 4; test=running-x; nametemplate=%s.pdf
+application/pdf; pdftotext %s -; nametemplate=%s.pdf; copiousoutput; needsterminal
+
+audio/*; xdg-open %s & sleep 4; test=running-x
+image/*; xdg-open %s & sleep 4; test=running-x
+application/msword; xdg-open %s & sleep 4; test=running-x
+application/postscript; xdg-open %s & sleep 4; test=running-x
