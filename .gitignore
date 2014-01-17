@@ -27,6 +27,7 @@
 !/.config/tint2/**
 !/.ctags
 !/.fetchmailrc
+!/.fetchmailrc.example
 !/.gitignore
 !/.gitmodules
 !/.gvimrc
@@ -38,6 +39,7 @@
 !/.mailfilters/
 !/.mailfilters/**
 !/.mbsyncrc
+!/.mbsyncrc.example
 !/.mutt/
 !/.mutt/**
 !/.muttrc
