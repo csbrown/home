@@ -58,6 +58,11 @@
 !/lib/bash/kiwi/
 !/lib/bash/kiwi/**
 
+!/mail/
+!/mail/.notmuch/
+!/mail/.notmuch/**
+/mail/.notmuch/xapian
+
 !/.gnupg/
 !/.gnupg/*
 /.gnupg/S.*
