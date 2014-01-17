@@ -1,0 +1,5 @@
+#!/bin/bash
+
+notmuch-sort-archive
+mbsync -a
+notmuch new
