@@ -36,6 +36,7 @@
 !/.inputrc
 !/.mailcap
 !/.mailfilter
+!/.mailfilter.example
 !/.mailfilters/
 !/.mailfilters/**
 !/.mbsyncrc
