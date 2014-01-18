@@ -47,6 +47,8 @@
 !/.profile.d/
 !/.profile.d/**
 !/.rpmmacros
+!/.ssh/
+!/.ssh/**
 !/.tmux.conf
 !/.vim/
 !/.vim/**
