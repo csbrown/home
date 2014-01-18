@@ -2,9 +2,23 @@
 
 import os
 import os.path
-import argparse
 import subprocess
 from subprocess import PIPE
+import sys
+
+dry_run = False
+
+prog_name = os.path.basename(sys.argv[0])
+nm_top = os.path.expanduser('/home/chadv/mail')
+maildir_top = os.path.expanduser('/home/chadv/mail/archive')
+
+def print_error(*args, sep=' ', end='\n'):
+    print('{0}: error:'.format(prog_name), *args,
+          sep=sep, end=end, file=sys.stderr)
+
+def print_info(*args, sep=' ', end='\n'):
+    print('{0}: info:'.format(prog_name), *args,
+          sep=sep, end=end, file=sys.stderr)
 
 def foreach_date(callback):
     for year in range(2010, 2049):
@@ -35,8 +49,11 @@ def maildir_make(year, month):
 
 def sort_messages(year, month):
     maildir_path = maildir_get_path(year, month)
+    nm_path = maildir_path[len(nm_top):]
     search_args = [
         'notmuch', 'search', '--output=files',
+        'not', 'folder:{0}'.format(maildir_path), 'and',
+        'tag:archive', 'and',
         'date:{0:04}-{1:02}..{0:04}-{1:02}'.format(year, month),
     ]
     search_proc = subprocess.Popen(search_args, stdout=PIPE)
@@ -55,14 +72,18 @@ def sort_messages(year, month):
         except FileNotFoundError:
             pass
 
-        print("mv {0} {1}".format(msg_src, msg_dest))
-        os.rename(msg_src, msg_dest)
+        try:
+            if not dry_run:
+                os.rename(msg_src, msg_dest)
+        except FileNotFoundError as e:
+            print_error("failed to move file: {1}".format(msg_src, e))
+        else:
+            print_info("mv {0} {1}".format(msg_src, msg_dest))
 
-parser = argparse.ArgumentParser()
-parser.add_argument('maildir_top')
-args = parser.parse_args()
-maildir_top = args.maildir_top
+print_info("WARNING: all paths hardcoded in script")
+print_info("WARNING: known perf issues")
 
 foreach_date(maildir_make)
 foreach_date(sort_messages)
-subprocess.check_call(['notmuch', 'new'])
+if not dry_run:
+    subprocess.check_call(['notmuch', 'new', '--no-hooks'])

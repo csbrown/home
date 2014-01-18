@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+
+import subprocess
+import json
+import shlex
+import shutil
+
+nm_args = shlex.split('notmuch show --format=json --entire-thread=false tag:patch')
+nm_out = subprocess.check_output(nm_args).decode()
+nm_json = json.loads(nm_out)
+
+n = 0
+
+def sanitize_subject(subj):
+        return subj.replace('/', '_')
+
+def walk(j):
+    global n
+
+    if isinstance(j, dict):
+        subject = j['headers']['Subject']
+        src_filename = j['filename']
+        dest_filename = '{0:04}-{1}.eml'.format(n, sanitize_subject(subject))
+        shutil.copy(src_filename, dest_filename)
+        n += 1
+    elif isinstance(j, list):
+        for k in j:
+            walk(k)
+    else:
+        pass
+
+walk(nm_json)
+
+nm_args = shlex.split('notmuch tag -patch tag:patch')
+subprocess.check_call(nm_args)

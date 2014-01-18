@@ -1,29 +1,36 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-set -eu
+import argparse
+import notmuch
+import os
+import sys
 
-tmpdir="$(mktemp -d)"
-file_list="$tmpdir/list"
+prog_name = os.path.basename(sys.argv[0])
 
-function on_exit() {
-    rm -rf "$tmpdir"
-}
+def print_error(*args, sep=' ', end='\n'):
+    print('{0}: error:'.format(prog_name), *args,
+          sep=sep, end=end, file=sys.stderr)
 
-trap on_exit EXIT
+def print_info(*args, sep=' ', end='\n'):
+    print('{0}: info:'.format(prog_name), *args,
+          sep=sep, end=end, file=sys.stderr)
 
-while true; do
-    files_removed=0
-    notmuch search --duplicate=2 --output=files "$@" >"$file_list"
+parser = argparse.ArgumentParser(
+            description='Remove duplicate mail files in notmuch database')
+parser.add_argument('-n', '--dry-run', action='store_true')
 
-    while read file; do
-        echo rm -rf "$file"
-        rm -rf "$file"
-        ((++files_removed))
-    done <"$file_list"
-
-    if [[ $files_removed -eq 0 ]]; then
-        exit 0
-    fi
-
-    notmuch new
-done
+args = parser.parse_args()
+db = notmuch.Database()
+query = notmuch.Query(db, '*')
+for msg in query.search_messages():
+    skipped_first_file = False
+    for filename in msg.get_filenames():
+        if not skipped_first_file:
+            skipped_first_file = True
+            continue
+        print_info('rm {0!r}'.format(filename))
+        try:
+            if not args.dry_run:
+                os.remove(msg.get_filename())
+        except FileNotFoundError as e:
+            print_error('failed to remove file: {1}'.format(filepath, e))

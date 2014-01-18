@@ -15,31 +15,22 @@ def print_info(*args, sep=' ', end='\n'):
     print('{0}: info:'.format(prog_name), *args,
           sep=sep, end=end, file=sys.stderr)
 
-parser = argparse.ArgumentParser(
-            description="Remove all files tagged 'trash'")
+parser = argparse.ArgumentParser()
 parser.add_argument('-n', '--dry-run', action='store_true')
 
 args = parser.parse_args()
 db = notmuch.Database(mode=notmuch.Database.MODE.READ_WRITE)
 try:
-    query = notmuch.Query(db, 'tag:trash')
+    query = notmuch.Query(db, '*')
     for msg in query.search_messages():
         msg.freeze()
 
-        if 'trash' not in [str(t) for t in msg.get_tags()]:
-            msg.thaw()
-            continue
-
         for filename in msg.get_filenames():
+            if os.path.exists(filename):
+                continue
+
+            print_info('remove message: {0}'.format(filename))
             if not args.dry_run:
                 db.remove_message(filename)
-
-            try:
-                if not args.dry_run:
-                    os.remove(msg.get_filename())
-            except FileNotFoundError as e:
-                print_error('failed to remove file: {1}'.format(filename, e))
-            else:
-                print_info('rm {0!r}'.format(filename))
 finally:
     db.close()
