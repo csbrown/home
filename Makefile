@@ -1,5 +1,5 @@
-SHELL := bash
-SHELLOPTS := eu
+export SHELL := bash
+export SHELLOPTS := errexit:nounset:pipefail
 
 DESTDIR ?=
 
