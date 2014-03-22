@@ -1,5 +1,13 @@
 #!/bin/bash
 
-notmuch-sort-archive
-mbsync -a
-notmuch new
+while true; do
+    echo "---- start sync $(date)"
+    notmuch-sort-archive
+    mbsync -a
+    notmuch new
+    echo "---- end sync $(date)"
+    echo "---- sync in 4min"
+    sleep 240
+    echo "---- sync in 4s"
+    sleep 4
+done
