@@ -101,6 +101,8 @@ nnoremap <leader>src :source $MYVIMRC<cr>
 noremap <CR> o<ESC>
 noremap <S-CR> O<ESC>
 
+set pastetoggle=<F2>
+
 nnoremap K :Man <cword><cr>
 
 nnoremap <leader>tb :TagbarToggle<cr>
