@@ -12,3 +12,4 @@ audio/*; xdg-open %s & sleep 4; test=running-x
 image/*; xdg-open %s & sleep 4; test=running-x
 application/msword; xdg-open %s & sleep 4; test=running-x
 application/postscript; xdg-open %s & sleep 4; test=running-x
+application/*officedocument*; xdg-open %s & sleep 4; test=running-x
