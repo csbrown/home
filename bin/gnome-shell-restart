@@ -1,4 +1,3 @@
 #!/bin/bash
 
-echo "Fuck you, gnome-shell. Stop being so damn buggy."
-exec nohup gnome-shell --replace --mode=classic
+exec nohup gnome-shell --replace
