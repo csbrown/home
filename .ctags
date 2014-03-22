@@ -1,3 +1,5 @@
+--recurse
+
 --fields=fiknsSzt
 
 --c-kinds=+cdefgmnpstuv
