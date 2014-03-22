@@ -103,6 +103,12 @@ noremap <S-CR> O<ESC>
 
 set pastetoggle=<F2>
 
+" Walk quickly through the quicklist and bufferlist.
+noremap <F3> :cn<cr>
+noremap <F4> :cp<cr>
+noremap <F5> :bn<cr>
+noremap <F6> :bp<cr>
+
 nnoremap K :Man <cword><cr>
 
 nnoremap <leader>tb :TagbarToggle<cr>
