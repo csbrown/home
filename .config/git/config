@@ -34,3 +34,5 @@
 	log = less
 [log]
 	decorate = true
+[fetch]
+	prune = true
