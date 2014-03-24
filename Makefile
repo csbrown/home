@@ -226,3 +226,16 @@ install:
 	    install -d "$(DESTDIR)$(HOME)/$$(dirname $$x)"; \
 	    cp -av "$$x" "$(DESTDIR)$(HOME)/$$x"; \
 	done
+
+# Target pull is the inverse of install. It pull installed files from $HOME
+# into the git directory so that changes can be committed.
+.PHONY: pull
+pull:
+	@if ! git diff --no-ext-diff --quiet --exit-code; then \
+	    echo "error: git tree is dirty"; \
+	    exit 1; \
+	fi; \
+	for x in $(install_files); do \
+	    cp -av "$(DESTDIR)$(HOME)/$${x}" "$${x}"; \
+	done
+
