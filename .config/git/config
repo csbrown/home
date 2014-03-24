@@ -36,3 +36,5 @@
 	decorate = true
 [fetch]
 	prune = true
+[format]
+	coverLetter = auto
