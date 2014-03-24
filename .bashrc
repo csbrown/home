@@ -88,6 +88,13 @@ alias ll="ls -l $_kw_ls_opts"
 unset _kw_ls_opts
 
 # ------------------------------
+# open
+# ------------------------------
+if [[ "$(uname)" = "Linux" ]]; then
+    alias open=xdg-open
+fi
+
+# ------------------------------
 # pacman
 # ------------------------------
 if which pacman-color >&/dev/null; then
