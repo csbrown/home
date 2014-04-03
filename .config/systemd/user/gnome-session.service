@@ -1,8 +1,0 @@
-[Unit]
-Description=The GNOME session manager
-Requires=xorg.target
-After=xorg.target
-
-[Service]
-ExecStart=/bin/gnome-session
-Restart=on-failure
