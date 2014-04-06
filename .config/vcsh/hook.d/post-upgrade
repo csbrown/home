@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -eux
+
+cd "$GIT_DIR"
+
+worktree="$(git config core.worktree)"
+
+mkdir -p info
+echo '*' >info/exclude
+
+hooks="$worktree/.githooks.d/$VCSH_REPO_NAME"
+if [[ ! -e "$hooks" ]]; then
+    mkdir -p "$hooks"
+fi
+
+rm -rf hooks
+ln -fs "$hooks" hooks
