@@ -1,18 +1,19 @@
 #!/bin/bash
 
-set -eux
+set -eu
+
+: ${XDG_CONFIG_HOME:=$HOME/.config}
 
 cd "$GIT_DIR"
-
-worktree="$(git config core.worktree)"
 
 mkdir -p info
 echo '*' >info/exclude
 
-hooks="$worktree/.githooks.d/$VCSH_REPO_NAME"
+hooks="$XDG_CONFIG_HOME/vcsh/git-hooks.d/$VCSH_REPO_NAME"
 if [[ ! -e "$hooks" ]]; then
     mkdir -p "$hooks"
 fi
-
-rm -rf hooks
+if [[ -e hooks ]]; then
+    rm -r hooks
+fi
 ln -fs "$hooks" hooks
