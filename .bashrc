@@ -187,8 +187,8 @@ function kw_ps1_dark() {
     kw_ps1_bg_color="$kw_color_bg_blue"
 }
 
-# Assume a dark background.
-kw_ps1_dark
+# Assume a light background.
+kw_ps1_light
 
 # ----------------------------------------------------------------------------
 # Misc Options
