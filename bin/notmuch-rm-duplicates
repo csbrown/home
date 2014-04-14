@@ -33,4 +33,4 @@ for msg in query.search_messages():
             if not args.dry_run:
                 os.remove(msg.get_filename())
         except FileNotFoundError as e:
-            print_error('failed to remove file: {1}'.format(filepath, e))
+            print_error('failed to remove file: {1}'.format(filename, e))
