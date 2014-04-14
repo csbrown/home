@@ -27,6 +27,13 @@ def check_git(args):
     args = ['git'] + args
     subp.check_call(args)
 
+def make_file_if_not_found(filename):
+    try:
+        with open(filename, 'x') as f:
+            pass
+    except FileExistsError as e:
+        pass
+
 class Repo:
 
     @classmethod
@@ -81,6 +88,10 @@ class Repo:
     def git_dir(self):
         return path.join(OGIT_REPOS_DIR, self.name + '.git')
 
+    @property
+    def disjoint_git_dir(self):
+        return path.join(OGIT_CONFIG_HOME, 'repos-config', self.name + '.git')
+
     def git_args(self, args):
         args = ['git', '--git-dir', self.git_dir] + args
         return args
@@ -109,19 +120,45 @@ class Repo:
     def update_git_config(self):
         self.check_git(['config', 'core.bare', 'false'])
         self.check_git(['config', 'core.worktree', self.worktree])
+        self.check_git(['config', 'core.excludesfile', self.disjoint_exclude_file])
         self.check_git(['config', 'remote.origin.url', self.url])
         self.check_git(['config', 'remote.origin.fetch', '+refs/heads/*:refs/remotes/origin/*'])
         self.check_git(['config', 'branch.master.remote', 'origin'])
         self.check_git(['config', 'branch.master.merge', 'refs/heads/master'])
-        if self.exclude is not None:
-            with open(path.join(self.git_dir, 'info', 'exclude'), 'w') as f:
-                print(self.exclude, file=f)
+
+    @property
+    def disjoint_info_dir(self):
+        return os.path.join(self.disjoint_git_dir, 'info')
+
+    @property
+    def disjoint_exclude_file(self):
+        return os.path.join(self.disjoint_info_dir, 'exclude')
+
+    @property
+    def disjoint_hooks_dir(self):
+        return os.path.join(self.disjoint_git_dir, 'hooks')
+
+    def init_disjoint_git_dir(self):
+        for d in [self.disjoint_git_dir, self.disjoint_info_dir, self.disjoint_hooks_dir]:
+            os.makedirs(d, exist_ok=True)
+            make_file_if_not_found(path.join(d, '.keep_me'))
+
+        make_file_if_not_found(self.disjoint_exclude_file)
+
+    def init_git_dir(self):
+        git_env = os.environ.copy()
+        git_env['GIT_TEMPLATE_DIR'] = ''
+        git_args = ['git', 'init']
+        if self.git_dir_link:
+            git_args += ['--separate-git-dir', self.git_dir, self.worktree]
+        elif not path.exists(self.git_dir):
+            git_args += ['--bare', self.git_dir]
+        subp.check_call(git_args, env=git_env)
+        subp.check_call(['ln', '-sfT', self.disjoint_hooks_dir, path.join(self.git_dir, 'hooks')])
 
     def init(self):
-        if self.git_dir_link:
-            check_git(['init', '--separate-git-dir', self.git_dir, self.worktree])
-        elif not path.exists(self.git_dir):
-            check_git(['init', '--bare', self.git_dir])
+        self.init_disjoint_git_dir()
+        self.init_git_dir()
         self.update_git_config()
 
     def is_dirty(self):
@@ -147,15 +184,12 @@ class Repo:
         self.check_git(['config'] + args)
 
 def get_config():
-    try:
-        conf = configparser.ConfigParser(allow_no_value=True)
-        conf.read(OGIT_CONFIG_MAIN)
-        for inc in conf.options('include'):
-            for g in glob.iglob(path.join(OGIT_CONFIG_HOME, inc)):
-                conf.read(g)
-        return conf
-    except e:
-        die("failed to parse config file '{0}': {1}".format(OGIT_CONFIG_MAIN), e)
+    conf = configparser.ConfigParser(allow_no_value=True)
+    conf.read(OGIT_CONFIG_MAIN)
+    for inc in conf.options('include'):
+        for g in glob.iglob(path.join(OGIT_CONFIG_HOME, inc)):
+            conf.read(g)
+    return conf
 
 def cmd_help(args):
     print('usage: {0} <command> [args]'.format(prog_name))
