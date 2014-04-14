@@ -1,0 +1,238 @@
+#!/usr/bin/env python3
+
+import configparser
+import glob
+import os
+import os.path as path
+import pwd
+import re
+import shlex
+import subprocess as subp
+import sys
+
+prog_name = None
+HOME = os.environ.get('HOME', pwd.getpwuid(os.getuid()).pw_dir)
+XDG_CONFIG_HOME = os.environ.get('XDG_CONFIG_HOME', path.join(HOME, '.config'))
+OGIT_CONFIG_HOME = path.join(XDG_CONFIG_HOME, 'ogit')
+OGIT_CONFIG_MAIN = path.join(OGIT_CONFIG_HOME, 'config')
+OGIT_REPOS_DIR = path.join(OGIT_CONFIG_HOME, 'repos')
+
+def die(msg):
+    sys.stderr.write('{0}: error: '.format(prog_name))
+    sys.stderr.write(msg)
+    sys.stderr.write('\n')
+    sys.exit(1)
+
+def check_git(args):
+    args = ['git'] + args
+    subp.check_call(args)
+
+class Repo:
+
+    @classmethod
+    def cmd(cls, cmd, repo_name, args):
+        conf = get_config()
+        repo = Repo.from_config(conf, repo_name)
+        repo.__getattribute__(cmd)(args)
+
+    @classmethod
+    def multi_cmd(cls, cmd, repo_names):
+        conf = get_config()
+        for repo in Repo.list_from_config(conf, repo_names):
+            if cmd != 'ls_files' and len(repo_names) > 1:
+                print("{0} {1}: {2}".format(prog_name, cmd, repo.name))
+            repo.__getattribute__(cmd)()
+
+    @classmethod
+    def from_config(cls, conf, name):
+        section = 'repo "{0}"'.format(name)
+        if not conf.has_section(section):
+            die("failed to find repo '{0}' in config file".format(name))
+
+        url = conf.get(section, 'url', fallback=None)
+        if url is None:
+            die('config file does not define repo."{0}".url'.format(name))
+
+        worktree = conf.get(section, 'worktree', fallback=None)
+        if worktree is None:
+            die('config file does not define repo."{0}".worktree'.format(name))
+        worktree = path.normpath(path.join(HOME, worktree))
+
+        repo = Repo()
+        repo.name = name
+        repo.url = url
+        repo.worktree = worktree
+        repo.git_dir_link = conf.getboolean(section, 'git_dir_link', fallback=(worktree != HOME))
+        repo.exclude = conf.get(section, 'exclude', fallback=None)
+        return repo
+
+    @classmethod
+    def list_from_config(cls, conf, names):
+        if len(names) == 0:
+            regex = re.compile('repo\s+"(.*)"')
+            for sect in conf.sections():
+                m = regex.match(sect)
+                if m is not None:
+                    names.append(m.groups()[0])
+
+        return [Repo.from_config(conf, name) for name in sorted(names)]
+
+    @property
+    def git_dir(self):
+        return path.join(OGIT_REPOS_DIR, self.name + '.git')
+
+    def git_args(self, args):
+        args = ['git', '--git-dir', self.git_dir] + args
+        return args
+
+    def check_git(self, args):
+        subp.check_call(self.git_args(args))
+
+    def git(self, args):
+        subp.call(self.git_args(args))
+
+    def git_has_remote(self, remote):
+        for x in subp.check_output(self.git_args(['remote'])).decode().split('\n'):
+            if remote == x.strip():
+                return True
+        return False
+
+    def exec(self, args):
+        os.putenv('GIT_DIR', self.git_dir)
+        os.putenv('GIT_WORK_TREE', self.worktree)
+        os.execvp(args[0], args)
+
+    def shell(self, args):
+        shell = os.environ.get('SHELL', pwd.getpwuid(os.getuid()).pw_shell)
+        self.exec([shell])
+
+    def update_git_config(self):
+        self.check_git(['config', 'core.bare', 'false'])
+        self.check_git(['config', 'core.worktree', self.worktree])
+        self.check_git(['config', 'remote.origin.url', self.url])
+        self.check_git(['config', 'remote.origin.fetch', '+refs/heads/*:refs/remotes/origin/*'])
+        self.check_git(['config', 'branch.master.remote', 'origin'])
+        self.check_git(['config', 'branch.master.merge', 'refs/heads/master'])
+        if self.exclude is not None:
+            with open(path.join(self.git_dir, 'info', 'exclude'), 'w') as f:
+                print(self.exclude, file=f)
+
+    def init(self):
+        if self.git_dir_link:
+            check_git(['init', '--separate-git-dir', self.git_dir, self.worktree])
+        elif not path.exists(self.git_dir):
+            check_git(['init', '--bare', self.git_dir])
+        self.update_git_config()
+
+    def is_dirty(self):
+        return self.git(['diff', '--quiet', '--no-ext-diff']) != 0 \
+            or self.git(['diff', '--quiet', '--no-ext-diff', '--cached']) != 0
+
+    def fetch(self):
+        self.git(['fetch', '--all'])
+
+    def status(self):
+        if self.is_dirty():
+            self.git(['status', '--short'])
+
+    def pull(self):
+        self.git(['pull'])
+
+    def ls_files(self):
+        with subp.Popen(self.git_args(['ls-files']), stdout=subp.PIPE) as proc:
+            for line in proc.stdout:
+                sys.stdout.write(path.join(self.worktree, line.decode()))
+
+    def config(self, args):
+        self.check_git(['config'] + args)
+
+def get_config():
+    try:
+        conf = configparser.ConfigParser(allow_no_value=True)
+        conf.read(OGIT_CONFIG_MAIN)
+        for inc in conf.options('include'):
+            for g in glob.iglob(path.join(OGIT_CONFIG_HOME, inc)):
+                conf.read(g)
+        return conf
+    except e:
+        die("failed to parse config file '{0}': {1}".format(OGIT_CONFIG_MAIN), e)
+
+def cmd_help(args):
+    print('usage: {0} <command> [args]'.format(prog_name))
+    print()
+    print('Commands:')
+    for cmd in cmd_table.keys():
+        print('  {0}'.format(cmd))
+
+def cmd_list(args):
+    if len(args) != 0:
+        die("usage error")
+
+    conf = get_config()
+    for repo in Repo.list_from_config(conf, []):
+        print("{0}:{1}{2}".format(repo.name, ' ' * (36 - len(repo.name)), repo.worktree))
+
+def cmd_init(args):
+    Repo.multi_cmd('init', args)
+
+def cmd_fetch(args):
+    Repo.multi_cmd('fetch', args)
+
+def cmd_status(args):
+    Repo.multi_cmd('status', args)
+
+def cmd_pull(args):
+    Repo.multi_cmd('pull', args)
+
+def cmd_exec(args):
+    if len(args) < 2:
+        die('usage error')
+    repo_name = args.pop(0)
+    Repo.cmd('exec', repo_name, args)
+
+def cmd_shell(args):
+    if len(args) != 1:
+        die('usage error')
+    repo_name = args.pop(0)
+    Repo.cmd('shell', repo_name, args)
+
+def cmd_config(args):
+    if len(args) < 1:
+        die('usage error')
+    repo_name = args.pop(0)
+    Repo.cmd('config', repo_name, args)
+
+def cmd_ls_files(args):
+    Repo.multi_cmd('ls_files', args)
+
+cmd_table = {
+    'help': cmd_help,
+    'list': cmd_list,
+    'init': cmd_init,
+    'fetch': cmd_fetch,
+    'status': cmd_status,
+    'pull': cmd_pull,
+    'exec': cmd_exec,
+    'shell': cmd_shell,
+    'ls-files': cmd_ls_files,
+    'config': cmd_config,
+}
+
+def main(args):
+    global prog_name
+
+    prog_name = path.basename(args.pop(0))
+
+    if len(args) == 0:
+        cmd_name = 'help'
+    else:
+        cmd_name = args.pop(0)
+
+    cmd_func = cmd_table.get(cmd_name, None)
+    if cmd_func is None:
+        die("unknown command '{0}'".format(cmd_name))
+
+    cmd_func(args)
+
+if __name__ == '__main__':
+    main(sys.argv)
