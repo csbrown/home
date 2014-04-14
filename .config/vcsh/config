@@ -1,2 +1,0 @@
-VCSH_HOOK_D="$XDG_CONFIG_HOME/vcsh/vcsh-hooks.d"
-VCSH_GITIGNORE=none
