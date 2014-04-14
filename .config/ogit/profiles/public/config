@@ -1,7 +1,6 @@
 [repo "dotfiles-public"]
 	url = git://github.com/chadversary/home
 	worktree = .
-	exclude = *
 [repo "depot_tools"]
 	url = https://chromium.googlesource.com/chromium/tools/depot_tools
 	worktree = src/depot_tools
