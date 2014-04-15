@@ -1,0 +1,4 @@
+[ogit-repo]
+	url = git://github.com/chadversary/home
+	worktree = ${ogit_top}
+        git-dir-link = false

@@ -1,0 +1,3 @@
+[ogit-repo]
+	worktree = ${ogit_top}/.vim/bundle/capslock
+	url = git://github.com/tpope/vim-capslock

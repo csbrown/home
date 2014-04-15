@@ -1,0 +1,3 @@
+[ogit-repo]
+	worktree = ${ogit_top}/src/depot_tools
+	url = https://chromium.googlesource.com/chromium/tools/depot_tools

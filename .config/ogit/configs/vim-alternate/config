@@ -1,0 +1,3 @@
+[ogit-repo]
+	worktree = ${ogit_top}/.vim/bundle/alternate
+	url = git://github.com/dantler/vim-alternate

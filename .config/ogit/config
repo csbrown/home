@@ -1,2 +1,2 @@
-[include]
-profiles/*/config
+[user]
+	email = chad@kiwitree.net
