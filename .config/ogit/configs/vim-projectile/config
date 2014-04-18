@@ -1,3 +1,0 @@
-[ogit-repo]
-	worktree = ${ogit_top}/.vim/bundle/projectile
-	url = git://github.com/tpope/vim-projectile
