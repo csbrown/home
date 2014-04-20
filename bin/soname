@@ -1,0 +1,41 @@
+#!/bin/bash
+
+function print_help {
+    printf 'usage: soname [-h|--help] FILE [FILE...]\n'
+    printf '\n'
+    printf 'description:\n'
+    printf '    Print soname of given files.\n'
+}
+
+function usage_error {
+    printf 'soname: usage error'
+    if [[ $# -gt 0 ]]; then
+        printf ': '
+        printf '%s' "$@"
+    fi
+    printf '\n'
+    print_help
+    exit 1
+} >/dev/stderr
+
+function main {
+    if [[ $# -eq 0 ]]; then
+        print_help
+        exit 0
+    fi
+
+    case "$1" in
+        -h|--help)
+            print_help
+            exit 0
+            ;;
+        -*)
+            usage_error "unknown option '$1'"
+            ;;
+    esac
+
+    readelf -d "$@" \
+    | sed -n -e 's/^[[:space:]]*0x000000000000000e[[:space:]]*(SONAME)[[:space:]]*Library soname:[[:space:]]*\[\(.*\)\]$/\1/p'
+}
+
+main "$@"
