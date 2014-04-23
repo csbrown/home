@@ -180,8 +180,6 @@ function repo_init {
 
     mkdir -p "$(dirname "$(repo_git_d)")"
     mkdir -p "$(dirname "$(repo_worktree)")"
-    # FIXME: This rm opens a race condition.
-    rm -f "$(repo_worktree)/.git"
     GIT_TEMPLATE_DIR= "${git_args[@]}"
     repo_update_git_config
 }
