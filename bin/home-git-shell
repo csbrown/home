@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eu
+
+if [[ $# -ne 1 ]]; then
+    echo >&2 "usage error"
+    exit 1
+fi
+
+export GIT_DIR="$HOME/.home-${1}.git"
+git rev-parse --git-dir
+exec "$SHELL"
