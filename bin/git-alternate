@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -eu
+
+function print_usage {
+    printf "usage: git-alternate\n"
+}
+
+function die {
+    echo "$@"
+    exit 1
+} >/dev/stderr
+
+function usage_error {
+    print_usage
+    exit 1
+} >/dev/stderr
+
+function list_alternates {
+    git_dir="$(git rev-parse --git-dir)"
+    alt_file="$git_dir"/objects/info/alternates
+    if [[ -r "$alt_file" ]]; then
+        cat "$alt_file"
+    fi
+}
+
+function add_alternate {
+    local alt="$1"
+
+    git_dir="$(git rev-parse --git-dir)"
+    alt_file="$git_dir"/objects/info/alternates
+    echo "$alt" >>"$alt_file"
+    cat "$alt_file"
+}
+
+case $# in
+    0)
+        list_alternates
+        ;;
+    1)
+        add_alternate "$1"
+        ;;
+    *)
+        usage_error
+        ;;
+esac
