@@ -1,0 +1,6 @@
+kw_path_prepend "$HOME/bin"
+kw_dirlist_prepend LD_LIBRARY_PATH "$HOME/lib"
+kw_dirlist_prepend CPATH "$HOME/include"
+kw_dirlist_prepend PKG_CONFIG_PATH "$HOME/share/pkgconfig"
+kw_dirlist_prepend PKG_CONFIG_PATH "$HOME/lib/pkgconfig"
+kw_dirlist_prepend LIBGL_DRIVER_PATH "$HOME/lib/dri"
