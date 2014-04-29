@@ -1,0 +1,232 @@
+#
+# See `$MUTT_SRC/doc/manual.txt`.
+#
+
+# ---------------------------------------------------------------------
+# Folders
+# ---------------------------------------------------------------------
+
+set nm_default_uri = "notmuch:///home/chadv/mail"
+set nm_hidden_tags =
+set nm_exclude_tags = "trash"
+
+set mbox_type = Maildir
+set folder = "~/mail/local"
+
+# Use first virtual mailbox as spoolfile.
+set virtual_spoolfile = yes
+
+# ---------------------------------------------------------------------
+# Sidebar
+# ---------------------------------------------------------------------
+
+set sidebar_visible = yes
+set sidebar_width = 35
+set sort_sidebar = unsorted
+set vfolder_format = "xxxx %6n(%6N) %f "
+color sidebar_new yellow default
+
+# ---------------------------------------------------------------------
+# Index
+# ---------------------------------------------------------------------
+
+set sort = threads
+
+tag-transforms \
+    "ignore"  "i" \
+    "archive" "a" \
+    "inbox"   "I" \
+    "unread"  "u" \
+    "list"    "l" \
+    "replied" "r" \
+    "sent"    "s" \
+    "to-me"   "m" \
+    "deleted" "D"
+
+tag-formats \
+    "ignore"  "Gi" \
+    "archive" "Ga" \
+    "unread"  "Gu" \
+    "inbox"   "GI" \
+    "replied" "Gr" \
+    "sent"    "Gs" \
+    "to-me"   "Gm" \
+    "deleted" "GD"
+
+set index_format = "%4C %S (%GI%Gu%Gt%Gi%Ga%Gl%Gm%Gr) %[%e %b %Y %R] %-15.15F %s (%g)"
+color index green default "~Y "\W?todo-review\W?""
+color index yellow default "~Y "\W?yellow\W?""
+color index red default "~Y "\W?red\W?""
+color index blue default "~Y "\W?unread\W?""
+
+# ---------------------------------------------------------------------
+# Reading Messages
+# ---------------------------------------------------------------------
+
+unhdr_order *
+hdr_order From Subject To Cc Date Message-Id
+ignore User-Agent X-Mailer
+unignore In-Reply-To Message-Id
+
+# auto_view: Automatically display MIME attachments other than text/plain in
+# pager.
+#unauto_view *
+auto_view text/html
+
+# alternative_order: Determines which attachment of a multipart/alternative
+# MIME type to display.
+#unalternative_order *
+#alternative_order ...
+
+# mime_lookup: For each MIME type in this list, lookup the actual MIME type in
+# the mime.types file before applying rules from the mailcap file. (See the
+# manual).
+mime_lookup application/octet-stream
+
+# ----------------------------------------------------------------------------
+# Aliases
+# ----------------------------------------------------------------------------
+
+source ~/.mutt/aliases
+set alias_file = ~/.mutt/aliases
+
+# ----------------------------------------------------------------------------
+# Composing and Sending
+# ----------------------------------------------------------------------------
+
+set sendmail = "msmtp --read-envelope-from"
+
+set record = ~/mail/local/.Sent
+set nm_record = yes
+set nm_record_tags = "+sent"
+set postponed = ~/mail/mutt/postponed
+
+set fast_reply = yes # Skip initial prompts when replying and forwarding.
+set edit_headers = yes
+set mime_forward = yes
+
+# ----------------------------------------------------------------------------
+# Keybindings - The Unbinding
+# ----------------------------------------------------------------------------
+
+bind  index,pager       0               noop
+bind  index,pager       1               noop
+bind  index,pager       2               noop
+bind  index,pager       3               noop
+bind  index,pager       4               noop
+bind  index,pager       5               noop
+bind  index,pager       6               noop
+bind  index,pager       7               noop
+bind  index,pager       8               noop
+bind  index,pager       9               noop
+
+bind  index,pager       d               noop # default: delete-message
+bind  index             D               noop # default: delete-pattern
+bind  index,pager       \Cd             noop # default: delete-thread
+bind  index             <esc>d          noop # default: delete-subthread
+
+bind  index,pager       u               noop # default: undelete-message
+bind  index             U               noop # default: undelete-pattern
+bind  index,pager       \Cu             noop # default: undelete-thread
+bind  index             <esc>u          noop # default: undelete-subthread
+
+bind  index             T               noop # default: tag-pattern
+bind  index             \Ct             noop # default: untag-pattern
+bind  index             <esc>t          noop # default: untag-thread
+
+bind  index             H               noop # default: top-page
+bind  index             M               noop # default: middle-page
+
+# ----------------------------------------------------------------------------
+# Keybindings - Navigation
+# ----------------------------------------------------------------------------
+
+#
+# Navigating sidebar
+#
+
+bind  index,pager       (               sidebar-prev
+bind  index,pager       )               sidebar-next
+bind  index,pager       -               sidebar-open
+
+#
+# Navigating index and pager
+#
+
+bind  index             j               next-entry
+bind  index             k               previous-entry
+bind  pager             j               next-line
+bind        pager       k               previous-line
+
+bind  index,pager       J               next-entry
+bind  index,pager       K               previous-entry
+
+bind  index             =               first-entry
+bind  index             *               last-entry
+bind        pager       =               top
+bind        pager       *               bottom
+
+bind  index,pager       z               next-page
+bind  index,pager       Z               previous-page
+
+bind  index             v               collapse-thread
+bind  index             V               collapse-all
+
+# ----------------------------------------------------------------------------
+# Keybindings - Managing the mail
+# ----------------------------------------------------------------------------
+
+#
+# Mantra:
+#   To classify is not the goal.
+#   To act is the goal.
+#
+
+bind  index               t     tag-entry
+bind  index             \Ct     tag-thread
+
+#
+# Permanent tags
+#
+#   a: archive          ^a: undo
+#   i: ignore           ^i: undo
+#   d: delete           ^d: undo
+#
+macro index,pager         a     "<modify-labels-then-hide>-unread -inbox -stage +archive               \n"
+macro index,pager         i     "<modify-labels-then-hide>-unread -inbox -stage +archive +ignore       \n"
+macro index,pager         d     "<modify-labels-then-hide>-unread -inbox                         +trash\n"
+
+macro index,pager       \ca     "<modify-labels-then-hide>               +stage -archive               \n"
+macro index,pager       \ci     "<modify-labels-then-hide>               +stage          -ignore       \n"
+macro index,pager       \cd     "<modify-labels-then-hide>               +stage                  -trash\n"
+
+#
+# Tags for urgency and todo actions
+#
+macro index,pager         0     "<modify-labels>                      -todo-respond -todo-action -todo-review -todo-eod -todo-blocked -yellow -red\n"
+macro index,pager         1     "<modify-labels>-unread -inbox +stage                                                                             \n"
+macro index,pager         2     "<modify-labels>-unread -inbox -stage +todo-respond                                                               \n"
+macro index,pager         3     "<modify-labels>-unread -inbox -stage               +todo-action                                                  \n"
+macro index,pager         4     "<modify-labels>-unread -inbox -stage                            +todo-review                                     \n"
+macro index,pager         5     "<modify-labels>-unread -inbox -stage                                         +todo-eod                           \n"
+macro index,pager         6     "<modify-labels>-unread -inbox -stage                                                   +todo-blocked             \n"
+macro index,pager         7     "<modify-labels>-unread                                                                               +yellow -red\n"
+macro index,pager         8     "<modify-labels>-unread                                                                               -yellow +red\n"
+
+#
+# Tags for ephemeral scratchspace
+#
+macro index,pager         p     "<modify-labels>+patch\n"
+
+# ---------------------------------------------------------------------
+# Misc
+# ---------------------------------------------------------------------
+
+# wait_key: Request keypress after external needsterminal commands complete.
+#
+# From the manual:
+#   Controls whether Mutt will ask you to press a key after an external has
+#   been invoked by these functions: <shell-escape>, <pipe-entry>,
+#   <print-message>, and <print-entry> commands.
+#
+set wait_key = no
