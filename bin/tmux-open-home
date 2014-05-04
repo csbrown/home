@@ -1,26 +1,0 @@
-#!/bin/bash
-
-set -eu
-
-if tmux has-session -t home >&/dev/null; then
-    exec tmux attach -t home
-fi
-
-tmux new-session -d -s home -n top
-tmux send-keys -t home:1 'cd $HOME'
-tmux set-option -t home default-path ~
-
-tmux new-window -d -t home -n sandbox
-tmux send-keys -t home:2 \
-    'cd ~/proj/home/sandbox'
-
-tmux new-window -d -t home -n tmux
-tmux send-keys -t home:3 \
-    'vim -c"Man tmux" -c"wincmd L" ~/.tmux.conf'
-
-tmux new-window -d -t home -n git
-tmux send-keys -t home:4 \
-    'vim -c"Man git-config" -c"wincmd L" ~/.config/git/config'
-
-tmux select-window -t home:1
-exec tmux attach-session -t home
