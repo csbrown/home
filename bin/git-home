@@ -53,7 +53,8 @@ function cmd_shell {
     # Verify that gitdir exists.
     git rev-parse --git-dir
 
-    exec "$SHELL"
+    # Execute as a *login* shell so that user gets all his shell goodies.
+    exec "$SHELL" -l
 }
 
 function cmd_clone {
