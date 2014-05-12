@@ -1,0 +1,60 @@
+[submodule "vim-pathogen"]
+	path = .vim/bundle/pathogen
+	url = git://github.com/tpope/vim-pathogen
+[submodule "vim-dispatch"]
+	path = .vim/bundle/dispatch
+	url = git://github.com/tpope/vim-dispatch
+[submodule "vim-fugitive"]
+	path = .vim/bundle/fugitive
+	url = git://github.com/tpope/vim-fugitive
+[submodule "vim-abolish"]
+	path = .vim/bundle/abolish
+	url = git://github.com/tpope/vim-abolish
+[submodule "vim-align"]
+	path = .vim/bundle/align
+	url = git://github.com/tsaleh/vim-align
+[submodule "vim-alternate"]
+	path = .vim/bundle/alternate
+	url = git://github.com/dantler/vim-alternate
+[submodule "vim-capslock"]
+	path = .vim/bundle/capslock
+	url = git://github.com/tpope/vim-capslock
+[submodule "vim-characterize"]
+	path = .vim/bundle/characterize
+	url = git://github.com/tpope/vim-characterize
+[submodule "vim-ctrlp"]
+	path = .vim/bundle/ctrlp
+	url = git://github.com/kien/ctrlp.vim
+[submodule "vim-eunuch"]
+	path = .vim/bundle/eunuch
+	url = git://github.com/tpope/vim-eunuch
+[submodule "vim-git"]
+	path = .vim/bundle/git
+	url = git://github.com/tpope/vim-git
+[submodule "vim-glsl"]
+	path = .vim/bundle/glsl
+	url = git://github.com/tikhomirov/vim-glsl
+[submodule "vim-maktaba"]
+	path = .vim/bundle/maktaba
+	url = git://github.com/google/maktaba
+[submodule "vim-obsession"]
+	path = .vim/bundle/obsession
+	url = git://github.com/tpope/vim-obsession
+[submodule "vim-sensible"]
+	path = .vim/bundle/sensible
+	url = git://github.com/tpope/vim-sensible
+[submodule "vim-tagbar"]
+	path = .vim/bundle/tagbar
+	url = git://github.com/majutsushi/tagbar
+[submodule "vim-unimpaired"]
+	path = .vim/bundle/unimpaired
+	url = git://github.com/tpope/vim-unimpaired
+[submodule "vim-vinegar"]
+	path = .vim/bundle/vinegar
+	url = git://github.com/tpope/vim-vinegar
+[submodule "vim-vividchalk"]
+	path = .vim/bundle/vividchalk
+	url = git://github.com/tpope/vim-vividchalk
+[submodule "vim-xolox-misc"]
+	path = .vim/bundle/xolox-misc
+	url = git://github.com/xolox/vim-misc
