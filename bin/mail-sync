@@ -1,13 +1,15 @@
 #!/bin/bash
 
+sleep_time='30s'
+
 while true; do
     echo "---- start sync $(date)"
+    # Give me padding so I don't accidentally kill an in-progress sync.
+    sleep 4s
     notmuch-sort-archive
     mbsync -a
     notmuch new
     echo "---- end sync $(date)"
-    echo "---- sync in 4min"
-    sleep 240
-    echo "---- sync in 4s"
-    sleep 4
+    echo "---- next sync in $sleep_time"
+    sleep $sleep_time
 done
