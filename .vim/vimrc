@@ -141,6 +141,18 @@ autocmd BufNewFile,BufRead PKGBUILD* set et ts=2 sw=2
 let go_highlight_trailing_whitespace_error = 0
 
 " ----------------------------------------------------------------------------
+" Git & Email
+" ----------------------------------------------------------------------------
+
+abbrev rb: Reviewed-by:
+abbrev sob: Signed-off-by:
+abbrev tb: Tested-by:
+
+abbrev chadv-k@ Chad Versace <chad@kiwitree.net>
+abbrev chadv-i@ Chad Versace <chad.versace@intel.com>
+abbrev chadv-l@ Chad Versace <chad.versace@linux.intel.com>
+
+" ----------------------------------------------------------------------------
 " Misc
 " ----------------------------------------------------------------------------
 
