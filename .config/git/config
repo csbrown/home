@@ -38,3 +38,6 @@
 	prune = true
 [format]
 	coverLetter = auto
+[url "git://github.com/"]
+	insteadOf = http://github.com/
+	insteadOf = https://github.com/
