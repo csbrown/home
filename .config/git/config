@@ -45,3 +45,7 @@
 	pushInsteadOf = git://github.com/chadversary/
 	pushInsteadOf = http://github.com/chadversary/
 	pushInsteadOf = https://github.com/chadversary/
+[url "ssh://github.com/waffle-gl/"]
+	pushInsteadOf = git://github.com/waffle-gl/
+	pushInsteadOf = http://github.com/waffle-gl/
+	pushInsteadOf = https://github.com/waffle-gl/
