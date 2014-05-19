@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -eu
+
+DBUS_SESSION_BUS_ADDRESS="$(sed -nz 's/DBUS_SESSION_BUS_ADDRESS=//p' </proc/$(pgrep -u `whoami` '^gnome-shell$')/environ)"
+
+export DBUS_SESSION_BUS_ADDRESS
+exec "$@"
