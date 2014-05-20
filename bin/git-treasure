@@ -1,0 +1,175 @@
+#!/usr/bin/env python3
+#
+# Copyright 2014 Chad Versace <chad@kiwitree.net>
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import getopt
+import io
+import os.path
+import shlex
+import subprocess as subp
+import sys
+import urllib.parse as urlparse
+import urllib.request as urlrequest
+
+PROG_NAME = 'git treasure'
+
+def die():
+    sys.exit(1)
+
+def print_usage(file=sys.stdout):
+    file.write('usage:\n')
+    file.write('    git treasure clone [-n|--dry-run] [-p|--prefix PREFIX] URL\n')
+    file.write('    git treasure ls [-p|--prefix PREFIX]\n')
+    file.write('    git treasure help\n')
+
+def usage_error(msg):
+    sys.stderr.write('usage error: {0}\n'.format(msg))
+    sys.stderr.write('\n')
+    print_usage(file=sys.stderr)
+    die()
+
+def loge(msg):
+    sys.stderr.write('{0}: error: {1}\n'.format(PROG_NAME, msg))
+
+def logi(msg):
+    sys.stdout.write('{0}: {1}\n'.format(PROG_NAME, msg))
+
+def url2path(url, prefix):
+    purl = urlrequest.urlparse(url)
+    purl_cleanpath = purl.path.lstrip('/').rstrip('.git')
+    path = os.path.join(prefix, purl.netloc, purl_cleanpath)
+    return path
+
+def git_clone(url, path, dry_run=False):
+    git_args = ['git', 'clone', url, path]
+    clean_args = ' '.join(map(shlex.quote, git_args))
+
+    print(clean_args)
+    if dry_run:
+        return
+
+    try:
+        proc = subp.check_call(git_args)
+    except subp.CalledProcessError as err:
+        loge('git clone failed')
+        die()
+
+def get_prefix(default=None):
+    prefix = None
+
+    git_args = ['git', 'config', '--global', '--get', '--path', 'treasure.prefix']
+    try:
+        git_out = subp.check_output(git_args)
+        prefix = git_out.decode().rstrip()
+    except subp.CalledProcessError as err:
+        if err.returncode == 1:
+            prefix = default
+        else:
+            loge('git failed: ' + ' '.join(map(shlex.quote, err.cmd)))
+            die()
+
+    if prefix is None:
+        loge('--prefix was not given on cmdline nor does git-config define treasure.prefix')
+        die()
+
+    return prefix
+
+def cmd_help(argv):
+    print_usage()
+
+def cmd_clone(argv):
+    arg_prefix = None
+    dry_run = False
+
+    try:
+        optlist, args = getopt.getopt(argv, 'hnp:', ['help', 'dry-run', 'prefix'])
+    except getopt.GetoptError as err:
+        usage_error(err)
+
+    for (opt, value) in optlist:
+        if opt in ('-h', '--help'):
+            print_usage()
+            return
+        elif opt in ('-n', '--dry-run'):
+            dry_run = True
+        elif opt in ('-p', '--prefix'):
+            arg_prefix = value
+        else:
+            assert(False)
+
+    if len(args) == 0:
+        usage_error('no URL given')
+
+    url = args.pop(0)
+    if len(args) > 0:
+        usage_error('trailing args: ' + ' '.join(map(shlex.quote, argv)))
+
+    prefix = get_prefix(arg_prefix)
+    path = url2path(url, prefix)
+    if os.path.exists(path):
+        loge('path {0!r} already exists'.format(path))
+        die()
+
+    git_clone(url, path, dry_run)
+
+def cmd_ls(argv):
+    arg_prefix = None
+
+    try:
+        optlist, args = getopt.getopt(argv, 'hnp:', ['help','prefix'])
+    except getopt.GetoptError as err:
+        usage_error(err)
+
+    for (opt, value) in optlist:
+        if opt in ('-h', '--help'):
+            print_usage()
+            return
+        elif opt in ('-p', '--prefix'):
+            arg_prefix = value
+        else:
+            assert(False)
+
+    if len(args) > 0:
+        usage_error('trailing args: ' + ' '.join(map(shlex.quote, argv)))
+
+    prefix = get_prefix(arg_prefix)
+    raise NotImplementedError('FINISHME')
+
+cmd_table = {
+    'help': cmd_help,
+    'clone': cmd_clone,
+    'ls': cmd_ls,
+}
+
+def main(argv):
+    exit_code = 0
+    argv.pop(0)
+
+    if len(argv) > 0:
+        cmd_name = argv.pop(0)
+    else:
+        cmd_name = 'help'
+        exit_code = 1
+
+    cmd_func = cmd_table.get(cmd_name, None)
+
+    if cmd_func is None:
+        usage_error('unknown command {0!r}'.format(cmd_name))
+
+    cmd_func(argv)
+    sys.exit(exit_code)
+
+if __name__ == '__main__':
+    main(sys.argv)
