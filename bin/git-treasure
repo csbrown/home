@@ -31,7 +31,7 @@ def die():
 def print_usage(file=sys.stdout):
     file.write('usage:\n')
     file.write('    git treasure clone [-n|--dry-run] [-p|--prefix PREFIX] URL\n')
-    file.write('    git treasure ls [-p|--prefix PREFIX]\n')
+    file.write('    git treasure ls [-p|--prefix PREFIX] [--[no-]relative\n')
     file.write('    git treasure help\n')
 
 def usage_error(msg):
@@ -88,6 +88,16 @@ def get_prefix(cmdline_prefix=None):
 
     return prefix
 
+def get_ls_relative(cmdline_relative=None):
+    if cmdline_relative is not None:
+        return cmdline_relative
+
+    relative = git_config(['--global', '--get', '--bool', 'treasure.ls-relative'])
+    if relative is None:
+        relative = True
+
+    return relative
+
 def cmd_help(argv):
     print_usage()
 
@@ -129,15 +139,16 @@ def cmd_clone(argv):
 def get_treasure_git_dirs(prefix):
     for (dirpath, dirnames, filenames) in os.walk(prefix, followlinks=True):
         if dirpath.startswith('.git'):
-            yield os.path.join(prefix, dirpath)
+            return dirpath
         elif '.git' in dirnames or '.git' in filenames:
-            yield os.path.join(prefix, dirpath, '.git')
+            yield os.path.join(dirpath, '.git')
 
 def cmd_ls(argv):
     arg_prefix = None
+    arg_relative = None
 
     try:
-        optlist, args = getopt.getopt(argv, 'hnp:', ['help','prefix='])
+        optlist, args = getopt.getopt(argv, 'hnp:', ['help','prefix=', 'relative', 'no-relative'])
     except getopt.GetoptError as err:
         usage_error(err)
 
@@ -147,6 +158,10 @@ def cmd_ls(argv):
             return
         elif opt in ('-p', '--prefix'):
             arg_prefix = value
+        elif opt in ('--relative',):
+            arg_relative = True
+        elif opt in ('--no-relative',):
+            arg_relative = False
         else:
             assert(False)
 
@@ -154,7 +169,10 @@ def cmd_ls(argv):
         usage_error('trailing args: ' + ' '.join(map(shlex.quote, argv)))
 
     prefix = get_prefix(arg_prefix)
+    relative = get_ls_relative(arg_relative)
     for git_dir in get_treasure_git_dirs(prefix):
+        if relative:
+            git_dir = os.path.relpath(git_dir, prefix)
         print(git_dir)
 
 cmd_table = {
