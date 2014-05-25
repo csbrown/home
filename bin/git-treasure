@@ -66,20 +66,27 @@ def git_clone(url, path, dry_run=False):
         loge('git clone failed')
         die()
 
-def get_prefix(cmdline_prefix=None):
-    if cmdline_prefix is not None:
-        return cmdline_prefix
-
-    git_args = ['git', 'config', '--global', '--get', '--path', 'treasure.prefix']
+def git_config(args):
+    git_args = ['git', 'config'] + list(args)
     try:
         return subp.check_output(git_args).decode().rstrip()
     except subp.CalledProcessError as err:
         if err.returncode == 1:
-            loge('--prefix was not given on cmdline nor does git-config define treasure.prefix')
-            die()
+            return None
         else:
             loge('git failed: ' + ' '.join(map(shlex.quote, err.cmd)))
             die()
+
+def get_prefix(cmdline_prefix=None):
+    if cmdline_prefix is not None:
+        return cmdline_prefix
+
+    prefix = git_config(['--global', '--get', '--path', 'treasure.prefix'])
+    if prefix is None:
+        loge('--prefix was not given on cmdline nor does git-config define treasure.prefix')
+        die()
+
+    return prefix
 
 def cmd_help(argv):
     print_usage()
