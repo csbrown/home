@@ -119,6 +119,13 @@ def cmd_clone(argv):
 
     git_clone(url, path, dry_run)
 
+def get_treasure_git_dirs(prefix):
+    for (dirpath, dirnames, filenames) in os.walk(prefix, followlinks=True):
+        if dirpath.startswith('.git'):
+            yield os.path.join(prefix, dirpath)
+        elif '.git' in dirnames or '.git' in filenames:
+            yield os.path.join(prefix, dirpath, '.git')
+
 def cmd_ls(argv):
     arg_prefix = None
 
@@ -140,7 +147,8 @@ def cmd_ls(argv):
         usage_error('trailing args: ' + ' '.join(map(shlex.quote, argv)))
 
     prefix = get_prefix(arg_prefix)
-    raise NotImplementedError('FINISHME')
+    for git_dir in get_treasure_git_dirs(prefix):
+        print(git_dir)
 
 cmd_table = {
     'help': cmd_help,
