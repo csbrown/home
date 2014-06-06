@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Amend HEAD by appending my reviewed-by.
+
+git --no-pager log -1 --format='%B' \
+| sed '$ c\
+Reviewed-by: Chad Versace <chad.versace@linux.intel.com>' \
+| git cm --amend -F -
