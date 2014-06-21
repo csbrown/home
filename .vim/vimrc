@@ -201,4 +201,3 @@ endfunction
 autocmd FileChangedShell <buffer> call KiwiFileChangedShell() 
 
 " vim: et sw=4:
-" The standard codestyle for PKGBUILD.
