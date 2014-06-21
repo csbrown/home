@@ -101,6 +101,10 @@ nnoremap <leader>src :source $MYVIMRC<cr>
 noremap <CR> o<ESC>
 noremap <S-CR> O<ESC>
 
+" Convert word to uppsercase.
+imap <leader>U <ESC>gUiw`]a
+noremap <leader>U m`gUiw``
+
 set pastetoggle=<F2>
 
 " Walk quickly through the quicklist and bufferlist.
