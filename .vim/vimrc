@@ -5,8 +5,9 @@
 " Remove all autocommands for the current group.
 autocmd!
 
-if ! empty($kw_goroot)
-    set runtimepath+=$kw_goroot/misc/vim
+let g:go_root = system("go env GOROOT")[:-2] " -2 strips the newline
+if len(g:go_root) > 0
+    let &runtimepath = g:go_root . "/misc/vim," . &runtimepath
 endif
 
 call pathogen#infect()

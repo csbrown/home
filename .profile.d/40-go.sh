@@ -1,11 +1,7 @@
-if ! which go >&/dev/null; then
-    return
+if [[ -d ~/opt/go ]]; then
+    export GOROOT="$HOME/opt/go"
+    kw_path_prepend "$GOROOT/bin"
 fi
 
-# Other config files should use $kw_goroot to find the GOROOT.  We don't set
-# GOROOT itself because that's generally a bad idea unless go is installed to
-# a custom location or if one is developing go itself.
-export kw_goroot=$(eval $(go env) && echo $GOROOT)
-
-export GOPATH="$HOME/go"
-kw_path_prepend "$GOPATH/bin"
+kw_dirlist_prepend GOPATH "$HOME/go"
+kw_dirlist_prepend PATH "$HOME/go/bin"
