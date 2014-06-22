@@ -102,6 +102,14 @@ nnoremap <leader>src :source $MYVIMRC<cr>
 noremap <CR> o<ESC>
 noremap <S-CR> O<ESC>
 
+" Convert word to uppsercase.
+imap <leader>U <ESC>gUiw`]a
+noremap <leader>U m`gUiw``
+
+" Reload current buffer.
+noremap <leader>e! :e!%<CR>
+imap <leader>e! <ESC><leader>e!i
+
 set pastetoggle=<F2>
 
 " Walk quickly through the quicklist and bufferlist.
@@ -178,5 +186,19 @@ set spelllang=en_us
 set visualbell
 set wildmenu
 
+" Agressively reload the buffer on event FileChangedShell, which Vim emits the
+" event when it notices the file has changed on disk.
+function KiwiFileChangedShell()
+    if v:fcs_reason == 'changed' ||
+     \ v:fcs_reason == 'conflict' ||
+     \ v:fcs_reason == 'mode' ||
+     \ v:fcs_reason == 'time'
+        let v:fcs_choice = 'reload'
+    else
+        let v:fcs_choice = 'ask' 
+    endif
+endfunction 
+
+autocmd FileChangedShell <buffer> call KiwiFileChangedShell() 
+
 " vim: et sw=4:
-" The standard codestyle for PKGBUILD.

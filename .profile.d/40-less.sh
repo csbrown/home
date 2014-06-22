@@ -1,6 +1,3 @@
-# Do not strip ascii color escape sequences.
-export LESS="-r"
-
 # Enable colors in man manpages.
 #
 # From termcap(5):
