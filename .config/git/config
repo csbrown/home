@@ -16,7 +16,6 @@
 	email = chad@chad-versace.us
 [core]
 	excludesfile = ~/.config/git/excludes
-	pager = tig
 [merge]
 	tool = vimdiff
 [push]
