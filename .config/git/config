@@ -26,9 +26,6 @@
 	path = ~/.config/git/local/config
 [grep]
 	lineNumber = 1
-[color]
-	ui = true
-	pager = false
 [pager]
 	log = less
 [log]
