@@ -175,11 +175,6 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" sessionoptions
-"     - 'options' and 'localoptions' are mutually exclusive.
-"     - 'sesdir' gives more predictable behavior thean 'curdir'.
-set sessionoptions=buffers,folds,globals,help,localoptions,resize,tabpages,winpos,winsize
-
 set backspace=indent,eol,start
 set matchpairs+=<:>
 set modeline
