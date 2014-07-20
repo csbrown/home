@@ -47,3 +47,5 @@
 	pushInsteadOf = https://github.com/waffle-gl/
 [treasure]
 	prefix = ~/src/treasure
+[tig]
+	mouse = true
