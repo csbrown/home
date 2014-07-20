@@ -102,9 +102,11 @@ nnoremap <leader>src :source $MYVIMRC<cr>
 noremap <CR> o<ESC>
 noremap <S-CR> O<ESC>
 
-" Convert word to uppsercase.
+" Convert word to lower and uppser case.
 imap <leader>U <ESC>gUiw`]a
+imap <leader>u <ESC>guiw`]a
 noremap <leader>U m`gUiw``
+noremap <leader>u m`guiw``
 
 " Reload current buffer.
 noremap <leader>e! :e!%<CR>
