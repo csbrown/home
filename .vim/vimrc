@@ -168,6 +168,8 @@ abbrev chadv-l@ Chad Versace <chad.versace@linux.intel.com>
 " Misc
 " ----------------------------------------------------------------------------
 
+set mouse=a
+
 " Buffers remain open when hidden.
 set hidden
 
