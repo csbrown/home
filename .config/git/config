@@ -23,7 +23,7 @@
 [rebase]
 	stat = true
 [include]
-	path = ~/.config/git/local/config
+	path = ~/.config/git/*.conf
 [grep]
 	lineNumber = 1
 [pager]
