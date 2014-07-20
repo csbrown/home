@@ -112,9 +112,10 @@ noremap <leader>u m`guiw``
 noremap <leader>e! :e!%<CR>
 imap <leader>e! <ESC><leader>e!i
 
-set pastetoggle=<F2>
+set pastetoggle=<F9>
 
 " Walk quickly through the quicklist and bufferlist.
+noremap <F2> :cc<cr>
 noremap <F3> :cn<cr>
 noremap <F4> :cp<cr>
 noremap <F5> :bn<cr>
