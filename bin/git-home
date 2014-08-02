@@ -8,6 +8,7 @@ config_dir="$XDG_CONFIG_HOME/git-home"
 
 function print_usage {
     echo "usage:"
+    echo "   $prog_name exec NAME"
     echo "   $prog_name ls"
     echo "   $prog_name shell NAME"
 }
@@ -21,6 +22,33 @@ function usage_error {
     print_usage
     exit 1
 } >&2
+
+function exec_in_repo {
+    if [[ $# -eq 0 ]]; then
+        usage_error "no repo name given"
+    fi
+
+    local name="$1"
+    shift
+
+    export GIT_DIR="$config_dir/repos/${name}.git"
+
+    # Verify that gitdir exists.
+    git rev-parse --git-dir
+
+    exec "$@"
+}
+
+function cmd_exec {
+    if [[ $# -eq 0 ]]; then
+        usage_error "no repo name given"
+    fi
+
+    local name="$1"
+    shift
+
+    exec_in_repo "$name" "$@"
+}
 
 function cmd_ls {
     if [[ $# -ne 0 ]]; then
@@ -38,17 +66,8 @@ function cmd_shell {
     local name="$1"
     shift
 
-    if [[ $# -ne 0 ]]; then
-        usage_error "trailing args: $@"
-    fi
-
-    export GIT_DIR="$config_dir/repos/${name}.git"
-
-    # Verify that gitdir exists.
-    git rev-parse --git-dir
-
     # Execute as a *login* shell so that user gets all his shell goodies.
-    exec "$SHELL" -l
+    exec_in_repo "$name" "$SHELL" -l
 }
 
 function main {
@@ -60,6 +79,9 @@ function main {
     shift
 
     case "$cmd" in
+        exec)
+            cmd_exec "$@"
+            ;;
         ls)
             cmd_ls "$@"
             ;;
