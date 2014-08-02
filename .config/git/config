@@ -28,8 +28,6 @@
 	path = ~/.config/git/*.conf
 [grep]
 	lineNumber = 1
-[pager]
-	log = less
 [log]
 	decorate = true
 [fetch]
@@ -51,3 +49,5 @@
 	prefix = ~/src/treasure
 [tig]
 	mouse = true
+[color]
+	pager = false
