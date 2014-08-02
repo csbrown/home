@@ -10,8 +10,6 @@ function print_usage {
     echo "usage:"
     echo "   $prog_name ls"
     echo "   $prog_name shell NAME"
-    echo "   $prog_name clone URL NAME"
-    echo "   $prog_name fix-submodules"
 }
 
 function usage_error {
@@ -24,16 +22,12 @@ function usage_error {
     exit 1
 } >&2
 
-function self_init {
-    mkdir -p "$config_dir/repos"
-}
-
 function cmd_ls {
     if [[ $# -ne 0 ]]; then
         usage_error "trailing args: $@"
     fi
 
-    ls -1 "$config_dir/repos"
+    ls -1 "$config_dir/repos" | sed 's/\.git$//'
 }
 
 function cmd_shell {
@@ -48,7 +42,7 @@ function cmd_shell {
         usage_error "trailing args: $@"
     fi
 
-    export GIT_DIR="$config_dir/repos/$name/gitdir"
+    export GIT_DIR="$config_dir/repos/${name}.git"
 
     # Verify that gitdir exists.
     git rev-parse --git-dir
@@ -57,61 +51,7 @@ function cmd_shell {
     exec "$SHELL" -l
 }
 
-function cmd_clone {
-    if [[ $# -ne 2 ]]; then
-        usage_error "wrong number of args"
-    fi
-
-    local url="$1"
-    local name="$2"
-
-    local repo_dir="$config_dir/repos/$name"
-    local repo_modules=".gitmodules.d/$name"
-
-    local git_dir="$repo_dir/gitdir"
-    local git_config="$git_dir/config"
-
-
-    mkdir -p "$repo_dir"
-
-    GIT_TEMPLATE_DIR= git clone --bare "$url" "$git_dir"
-    git config -f "$git_config" --path core.worktree "$HOME"
-    git config -f "$git_config" --bool core.bare false
-    (
-        cd "$git_dir"
-        rm -rf hooks
-        mkdir -p ../githooks
-        ln -s ../githooks hooks
-    )
-    (
-        export GIT_DIR="$git_dir"
-        if git cat-file -e HEAD:"$repo_modules"; then
-            git cat-file -p HEAD:"$repo_modules" > "$HOME/$repo_modules"
-        fi
-        fix_submodules
-        git read-tree HEAD
-        git submodule update --init
-        git checkout
-    )
-}
-
-function fix_submodules {
-    if [[ -d ~/.gitmodules.d ]]; then
-        cat ~/.gitmodules.d/* > ~/.gitmodules
-    fi
-}
-
-function cmd_fix_submodules {
-    if [[ $# -ne 0 ]]; then
-        usage_error "wrong number of args"
-    fi
-
-    fix_submodules
-}
-
 function main {
-    self_init
-
     if [[ $# -eq 0 ]]; then
         usage_error "no command given"
     fi
@@ -125,12 +65,6 @@ function main {
             ;;
         shell)
             cmd_shell "$@"
-            ;;
-        clone)
-            cmd_clone "$@"
-            ;;
-        fix-submodules)
-            cmd_fix_submodules "$@"
             ;;
         *)
             usage_error "unknown command: $cmd"
