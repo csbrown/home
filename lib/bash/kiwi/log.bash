@@ -1,4 +1,4 @@
-function kw_log() {
+function kw_logi() {
     >/dev/stderr printf "$@"
 }
 
