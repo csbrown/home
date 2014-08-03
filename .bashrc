@@ -196,7 +196,7 @@ function kw_ps1_auto() {
     fi
 
     case "$(gsettings get org.gnome.Terminal.ProfilesList default)" in
-        "'b1dcc9dd-5262-4d8d-a863-c897e6d979b9'") kw_ps1_dark ;;
+        "'b1dcc9dd-5262-4d8d-a863-c897e6d979b9'") kw_ps1_light ;;
         "'04454d77-6449-414e-b3d1-32ead1bf54eb'") kw_ps1_light ;;
     esac
 }
