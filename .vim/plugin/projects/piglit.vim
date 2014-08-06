@@ -4,8 +4,9 @@ endfunction
 
 function KiwiProjPiglitPy()
     " PEP 8
-    set et sw=4 ts=8
+    set et sw=4 ts=4
 endfunction
 
 autocmd BufNewFile,BufRead **/piglit/**.{c,h,shader_test,vert,frag} call KiwiProjPiglitC()
+autocmd BufNewFile,BufRead **/piglit/piglit call KiwiProjPiglitPy()
 autocmd BufNewFile,BufRead **/piglit/**.py call KiwiProjPiglitPy()
