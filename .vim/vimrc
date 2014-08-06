@@ -102,17 +102,20 @@ nnoremap <leader>src :source $MYVIMRC<cr>
 noremap <CR> o<ESC>
 noremap <S-CR> O<ESC>
 
-" Convert word to uppsercase.
+" Convert word to lower and uppser case.
 imap <leader>U <ESC>gUiw`]a
+imap <leader>u <ESC>guiw`]a
 noremap <leader>U m`gUiw``
+noremap <leader>u m`guiw``
 
 " Reload current buffer.
 noremap <leader>e! :e!%<CR>
 imap <leader>e! <ESC><leader>e!i
 
-set pastetoggle=<F2>
+set pastetoggle=<F9>
 
 " Walk quickly through the quicklist and bufferlist.
+noremap <F2> :cc<cr>
 noremap <F3> :cn<cr>
 noremap <F4> :cp<cr>
 noremap <F5> :bn<cr>
@@ -165,6 +168,8 @@ abbrev chadv-l@ Chad Versace <chad.versace@linux.intel.com>
 " Misc
 " ----------------------------------------------------------------------------
 
+set mouse=a
+
 " Buffers remain open when hidden.
 set hidden
 
@@ -172,11 +177,6 @@ set hidden
 set nobackup
 set nowritebackup
 set noswapfile
-
-" sessionoptions
-"     - 'options' and 'localoptions' are mutually exclusive.
-"     - 'sesdir' gives more predictable behavior thean 'curdir'.
-set sessionoptions=buffers,folds,globals,help,localoptions,resize,tabpages,winpos,winsize
 
 set backspace=indent,eol,start
 set matchpairs+=<:>
@@ -188,7 +188,7 @@ set wildmenu
 
 " Agressively reload the buffer on event FileChangedShell, which Vim emits the
 " event when it notices the file has changed on disk.
-function KiwiFileChangedShell()
+function! KiwiFileChangedShell()
     if v:fcs_reason == 'changed' ||
      \ v:fcs_reason == 'conflict' ||
      \ v:fcs_reason == 'mode' ||

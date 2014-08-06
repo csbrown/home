@@ -11,6 +11,8 @@
 	rb-c = rebase --continue
 	root = rev-parse --show-toplevel
 	st = status -s
+	sub = submodule
+	subf = submodule foreach --recursive
 [user]
 	name = Chad Versace
 	email = chad@chad-versace.us
@@ -23,11 +25,9 @@
 [rebase]
 	stat = true
 [include]
-	path = ~/.config/git/local/config
+	path = ~/.config/git/*.conf
 [grep]
 	lineNumber = 1
-[pager]
-	log = less
 [log]
 	decorate = true
 [fetch]
@@ -47,3 +47,7 @@
 	pushInsteadOf = https://github.com/waffle-gl/
 [treasure]
 	prefix = ~/src/treasure
+[tig]
+	mouse = true
+[color]
+	pager = false

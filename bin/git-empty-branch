@@ -1,0 +1,61 @@
+#!/bin/bash
+
+set -eu
+
+prog_name="git empty-branch"
+
+opt_spec="\
+$prog_name [-h|--help] <branchname>
+--
+h,help          show this help
+"
+
+branchname=
+
+function print_help {
+    echo "$prog_name - create new branch with no commits"
+    echo
+    echo "usgage: $prog_name [-h|--help] <branchname>"
+}
+
+function usage_error {
+    echo "error: $@"
+    parse_args --help
+} >/dev/stderr
+
+function cmd_help {
+    print_help
+    exit 0
+}
+
+function parse_args {
+    eval "$(echo "$opt_spec" | git rev-parse --parseopt -- "$@" || echo exit $?)"
+
+    while true; do
+        case "$1" in
+            --)
+                shift
+                break
+                ;;
+            esac
+    done
+
+    if [[ $# -eq 0 ]]; then
+        usage_error "missing argument <branchname>"
+    fi
+
+    branchname="$1"
+    shift
+
+    if [[ $# -ne 0 ]]; then
+        usage_error "trailing args: $@"
+    fi
+}
+
+function main {
+    parse_args "$@"
+    git_dir="$(git rev-parse --git-dir)"
+    >"$git_dir/HEAD" printf 'ref: refs/heads/%s\n' "$branchname" 
+}
+
+main "$@"

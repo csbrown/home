@@ -1,3 +1,9 @@
+[submodule "git"]
+	path = .local/src/git
+	url = git://git.kernel.org/pub/scm/git/git
+[submodule "gnome-shell-extension-sensors"]
+	path = .local/src/gnome-shell-extension-sensors
+	url = git://github.com/xtranophilist/gnome-shell-extension-sensors
 [submodule "vim-pathogen"]
 	path = .vim/bundle/pathogen
 	url = git://github.com/tpope/vim-pathogen

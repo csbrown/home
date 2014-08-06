@@ -191,21 +191,14 @@ function kw_ps1_dark() {
 # Autoselect PS1 colors based on known Gnome Terminal profile.
 #
 function kw_ps1_auto() {
-    if command -v gsettings &>/dev/null; then
-        case "$(gsettings get org.gnome.Terminal.ProfilesList default)" in
-            "'b1dcc9dd-5262-4d8d-a863-c897e6d979b9'")
-                kw_ps1_dark
-                ;;
-            "'04454d77-6449-414e-b3d1-32ead1bf54eb'")
-                kw_ps1_light
-                ;;
-            *)
-                kw_ps1_dark
-                ;;
-        esac
-    else
-        kw_ps1_dark
+    if ! command -v gsettings &>/dev/null; then
+        return
     fi
+
+    case "$(gsettings get org.gnome.Terminal.ProfilesList default)" in
+        "'b1dcc9dd-5262-4d8d-a863-c897e6d979b9'") kw_ps1_light ;;
+        "'04454d77-6449-414e-b3d1-32ead1bf54eb'") kw_ps1_light ;;
+    esac
 }
 
 # ----------------------------------------------------------------------------

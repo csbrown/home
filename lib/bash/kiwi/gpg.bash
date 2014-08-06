@@ -47,7 +47,7 @@ function kw_gpg_start_agent() {
         return 1
     fi
 
-    kw_log "gpg: Started agent $(cut -d= -f2 <"$kw_gpg_agent_env_file")\n"
+    kw_logi "gpg: Started agent $(cut -d= -f2 <"$kw_gpg_agent_env_file")\n"
 }
 
 function kw_gpg_connect_to_agent() {
@@ -55,5 +55,5 @@ function kw_gpg_connect_to_agent() {
     export GPG_AGENT_INFO
     export GPG_AGENT_PID=$(cut -d: -f2 < "$kw_gpg_agent_env_file") || return 1
     kill -0 "$GPG_AGENT_PID" >&/dev/null || return 1
-    kw_log "gpg: Connected to agent $GPG_AGENT_INFO\n"
+    kw_logi "gpg: Connected to agent $GPG_AGENT_INFO\n"
 }
